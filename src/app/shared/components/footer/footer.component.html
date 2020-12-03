@@ -1,0 +1,7 @@
+<footer fxLayout="row" fxLayoutAlign="end center" class="main-footer mat-bg-primary">
+  <a [routerLink]="linkItem.link" *ngFor="let linkItem of linkItems; let index = index">
+  <span class="text-white mx-16">
+      {{linkItem.name}}
+    </span>
+  </a>
+</footer>

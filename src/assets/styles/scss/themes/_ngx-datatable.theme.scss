@@ -1,0 +1,123 @@
+@mixin ngx-datatable-theme($theme) {
+  $text-color: map-get(map-get(map-get($theme, color), foreground), base);
+  $disabled-text-color: map-get(map-get(map-get($theme, color), foreground), disabled-text);
+  .ngx-datatable.material {
+    background-color: transparent !important;
+    color: $text-color !important;
+  }
+  .ngx-datatable .datatable-header-cell, 
+  .ngx-datatable .datatable-body-cell,
+  .page-count,
+  .ngx-datatable .datatable-footer .datatable-pager a {
+    color: $text-color !important;
+  }
+  .ngx-datatable .datatable-footer .datatable-pager .pager li.disabled a {
+    color: $disabled-text-color !important;
+  }
+  .ngx-datatable.material .datatable-header {
+    background: map-get(map-get($theme, background), background);
+    // @debug map-get($theme, color);
+  }
+  .ngx-datatable.material:not(.cell-selection) .datatable-body-row:hover,
+  .ngx-datatable.material:not(.cell-selection)
+    .datatable-body-row:hover
+    .datatable-row-group {
+    background: map-get(map-get($theme, background), hover);
+  }
+
+}
+// $color: (
+//   primary: (
+//     main: #0081ff,
+//     lighter: #b3d9ff,
+//     darker: #0064ff,
+//     200: #0081ff,
+//     contrast: (
+//       main: #ffffff,
+//       lighter: #304156,
+//       darker: #ffffff,
+//     ),
+//     default: #0081ff,
+//     text: #0081ff,
+//     default-contrast: #ffffff,
+//     lighter-contrast: #304156,
+//     darker-contrast: #ffffff,
+//     "main-contrast": #ffffff,
+//     "200-contrast": null,
+//     "contrast-contrast": null,
+//   ),
+//   accent: (
+//     main: #ff8a48,
+//     lighter: #ffdcc8,
+//     darker: #ff6d30,
+//     200: #ff8a48,
+//     contrast: (
+//       main: #304156,
+//       lighter: #304156,
+//       darker: #304156,
+//     ),
+//     default: #ff8a48,
+//     text: #ff8a48,
+//     default-contrast: #304156,
+//     lighter-contrast: #304156,
+//     darker-contrast: #304156,
+//     "main-contrast": #304156,
+//     "200-contrast": null,
+//     "contrast-contrast": null,
+//   ),
+//   warn: (
+//     main: #ff3d57,
+//     lighter: #ffc5cd,
+//     darker: #ff273c,
+//     200: #ff3d57,
+//     contrast: (
+//       main: #ffffff,
+//       lighter: #304156,
+//       darker: #ffffff,
+//     ),
+//     default: #ff3d57,
+//     text: #ff3d57,
+//     default-contrast: #ffffff,
+//     lighter-contrast: #304156,
+//     darker-contrast: #ffffff,
+//     "main-contrast": #ffffff,
+//     "200-contrast": null,
+//     "contrast-contrast": null,
+//   ),
+//   is-dark: true,
+//   foreground: (
+//     base: #ffffff,
+//     divider: rgba(255, 255, 255, 0.12),
+//     dividers: rgba(255, 255, 255, 0.12),
+//     disabled: rgba(255, 255, 255, 0.5),
+//     disabled-button: rgba(255, 255, 255, 0.3),
+//     disabled-text: rgba(255, 255, 255, 0.5),
+//     elevation: black,
+//     hint-text: rgba(255, 255, 255, 0.5),
+//     secondary-text: rgba(255, 255, 255, 0.7),
+//     accent-text: rgba(255, 255, 255, 0.7),
+//     icon: #ffffff,
+//     icons: #ffffff,
+//     text: #ffffff,
+//     slider-min: #ffffff,
+//     slider-off: rgba(255, 255, 255, 0.3),
+//     slider-off-active: rgba(255, 255, 255, 0.3),
+//   ),
+//   background: (
+//     background: #1a2038,
+//     status-bar: #3a487e,
+//     app-bar: #222a49,
+//     hover: rgba(250, 250, 250, 0.04),
+//     card: #222a49,
+//     dialog: #222a49,
+//     tooltip: #3a487e,
+//     disabled-button: rgba(250, 250, 250, 0.12),
+//     raised-button: #222a49,
+//     focused-button: rgba(255, 255, 255, 0.12),
+//     selected-button: #3a487e,
+//     selected-disabled-button: #4b5ca0,
+//     disabled-button-toggle: #2a345b,
+//     unselected-chip: #3a487e,
+//     disabled-list-option: #2a345b,
+//   ),
+// );

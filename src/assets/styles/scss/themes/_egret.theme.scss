@@ -1,0 +1,42 @@
+@import 'ngx-datatable.theme';
+
+@mixin color-classes($theme) {
+  $color: map-get($theme, color);
+  $background: map-get($theme, background);
+  $primary: map-get(map-get($color, primary), main);
+  $accent: map-get(map-get($color, accent), main);
+  $warn: map-get(map-get($color, warn), main);
+  $unselected-chip: map-get($background, 'unselected-chip');
+
+  .text-primary {
+    color: $primary;
+  }
+  .text-accent {
+    color: $accent;
+  }
+  .text-warn {
+    color: $warn;
+  }
+  .mat-bg-primary {
+    background-color: $primary;
+  }
+  .mat-bg-accent {
+    background-color: $accent;
+  }
+  .mat-bg-warn {
+    background-color: $warn;
+  }
+  .mat-bg-chip {
+    background-color: $unselected-chip;
+  }
+  .mat-bg-card {
+    background-color: map-get($background, card);
+  }
+}
+
+@mixin egret-theme($theme) {
+  @include typography-color($theme);
+  @include color-classes($theme);
+
+  @include ngx-datatable-theme($theme);
+}
