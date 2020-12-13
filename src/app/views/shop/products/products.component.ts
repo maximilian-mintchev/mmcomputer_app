@@ -4,18 +4,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ShopService, CartItem } from '../shop.service';
 import { Product } from '../../../shared/models/product.model';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms'
-import { Subscription, Observable } from 'rxjs';
+import { Subscription, Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { egretAnimations } from '../../../shared/animations/egret-animations';
 import { AppLoaderService } from '../../../shared/services/app-loader/app-loader.service';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
-
-
-interface FoodNode {
-  name: string;
-  children?: FoodNode[];
-}
 
 const TREE_DATA: FoodNode[] = [
   {
@@ -670,9 +664,97 @@ const TREE_DATA: FoodNode[] = [
     ]
   },
   {
+    name: 'Software',
+    children: [
+      { name: 'Betriebssysteme' },
+      { name: 'Lizenzen' },
+      { name: 'Utilities/Sicherheit' },
+      { name: 'Büro/Organisation' },
+      { name: 'Datenbanken/Entwicklung' },
+      { name: 'Grafik/DTP' },
+      { name: 'Multimedia/Webpublishing' },
+      { name: 'Videobearbeitung' },
+      { name: 'Soundbearbeitung' },
+      { name: 'CAD/Modeling' },
+      { name: 'Bildung/Entertainment' },
+      { name: 'sonstiges' },
+    ]
+  },
+  {
+    name: 'Adapter/Kabel/sonstiges',
+    children: [
+      {
+        name: 'Batterien & Ladegeräte',
+        children: [
+          { name: 'Batterien' },
+          { name: 'Akkus' },
+          { name: 'Ladegeräte' },
+        ]
+      },
+      { name: 'Adapter/Ladegeräte' },
+      {
+        name: 'Kabel',
+        children: [
+          { name: 'Displayport' },
+          { name: 'DVI' },
+          { name: 'Firewire' },
+          { name: 'HDMI' },
+          { name: 'IDE' },
+          { name: 'ISDN' },
+          {
+            name: 'Netzwerk',
+            children: [
+              { name: 'Kat.5 (100MBit)' },
+              { name: 'Kat. 6 (1000MBit)' },
+              { name: 'Kat.7 (1000MBit)' },
+            ]
+          },
+          { name: 'parallel' },
+          { name: 'PS2 (Tastatur)' },
+          { name: 'Toslink (optisch)' },
+          { name: 'SATA' },
+          { name: 'eSATA' },
+          { name: 'SCSI' },
+          { name: 'seriell' },
+          { name: 'Stromkabel' },
+          { name: 'Stromkabel (intern)' },
+          { name: 'Telefon' },
+          { name: 'USB' },
+          { name: 'VGA' },
+        ]
+      },
+      { name: 'Steckdosenleisten' },
+      { name: 'HUBs/Verteiler' },
+      { 
+        name: 'Dataswitches',
+        children: [
+          { name: 'Zubehör' },
+        ] 
+      },
+      { 
+        name: 'sonstiges',
+        children: [
+          { name: 'Powerbank' },
+        ] 
+      },
+    ]
+  },
+  {
     name: 'Restposten/Vorführgeräte'
   }
 ];
+
+
+interface FoodNode {
+  name: string;
+  children?: FoodNode[];
+}
+
+interface IProductConfig {
+  viewMode: string,
+  pcConfigMode: boolean
+}
+
 
 /** Flat node with expandable and level information */
 interface ExampleFlatNode {
@@ -680,12 +762,6 @@ interface ExampleFlatNode {
   name: string;
   level: number;
 }
-
-
-
-
-
-
 
 @Component({
   selector: 'app-products',
@@ -698,6 +774,12 @@ export class ProductsComponent implements OnInit, OnDestroy {
   public viewMode: string = 'grid-view';
   public currentPage: any;
   @ViewChild(MatSidenav) private sideNav: MatSidenav;
+  public productConfig: IProductConfig = {
+    viewMode: 'grid-view',
+    pcConfigMode: false
+  }
+
+  public productConfig$: BehaviorSubject<IProductConfig> = new BehaviorSubject(this.productConfig);
 
   public products$: Observable<Product[]>;
   public categories$: Observable<any>;
@@ -792,5 +874,19 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   toggleSideNav() {
     this.sideNav.opened = !this.sideNav.opened;
+  }
+
+  setViewMode(viewMode: string) {
+    if(viewMode !== this.productConfig.viewMode) {
+      this.productConfig.viewMode = viewMode;
+      this.productConfig$.next(this.productConfig);
+    }
+  }
+
+  public setPcConfigMode(pcConfigMode: boolean) {
+    if(pcConfigMode !== this.productConfig.pcConfigMode) {
+      this.productConfig.pcConfigMode = pcConfigMode;
+      this.productConfig$.next(this.productConfig);
+    }
   }
 }

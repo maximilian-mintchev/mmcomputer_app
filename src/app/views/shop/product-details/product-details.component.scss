@@ -1,0 +1,93 @@
+.product-photos-wrap {
+    position: relative;
+    .product-photos-container {
+        position: sticky;
+        top: 0;
+        left: 0;
+        height: fit-content;
+        max-width: 100%;
+        .gallery-photo {
+          height: fit-content;
+          width: calc(100% - 80px);
+          float: left;
+          // padding-right: 1rem;
+          margin-bottom: 1rem;
+          position: relative;
+            .photo-toolbar {
+              position: absolute;
+              bottom: 0;
+              right: 0;
+              width: fit-content;
+              background: transparent;
+            }
+            img {
+              max-height: 300px;
+              width: 100%;
+              height: auto;
+              border-radius: 4px;
+              object-fit: scale-down;
+            }
+          }
+          .gallery-thumbnails {
+            width: 100px;
+            float: left;
+            padding-right: .667rem;
+            height: fit-content;
+            img {
+              width: 100%;
+              max-height: 60px;
+              border-radius: 2px;
+              display: inline-block;
+              opacity: 1;
+              object-fit: scale-down;
+              cursor: pointer;
+              transition: all .3s ease-in;
+              &.active {
+                opacity: .6;
+              }
+            }
+          }
+    }
+}
+
+
+.configuration-opened {
+  // height: fit-content;
+  // visibility: visible;
+  // opacity: 1;
+  // transform: scaleY(1);
+  max-height: 1500px;
+}
+
+.configuration-closed {
+  // height: 0;
+  // visibility: hidden;
+  max-height: 0;
+  // opacity: 0;
+  // transform: scaleY(0);
+}
+
+.configuration-extension {
+  overflow: hidden;
+  // height: fit-content;
+  // transform-origin: top;
+  // transition: transform 0.4s ease-in;
+  transition: max-height 0.3s linear;
+  transform-origin: top;
+}
+
+.extend-configuration-button {
+  .mat-icon {
+    transition: transform 0.4s ease-out;
+  }
+}
+
+.rotate1 {
+  transform: rotate(180deg);
+}
+
+.rotate2 {
+  transform: rotate(0);
+}
+
+

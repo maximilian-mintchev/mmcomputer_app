@@ -1,51 +1,229 @@
 <div class="product-details-wrap m-333" fxLayout="row wrap" fxLayout.lt-md="column">
   <div fxLayout="row" fxFlex="100" class="mb-8">
-    <button mat-icon-button class="text-muted" routerLink="/shop"><mat-icon>chevron_left</mat-icon> <span >Back to Shop</span></button>
+    <button mat-icon-button class="text-muted" routerLink="/shop">
+      <mat-icon>chevron_left</mat-icon> <span>Back to Shop</span>
+    </button>
     <span fxFlex></span>
     <span fxFlex="20px"></span>
     <button mat-raised-button color="primary" routerLink="/shop/cart">
-      <mat-icon>shopping_cart</mat-icon> Cart ({{cartData?.itemCount}})</button>
+      <mat-icon>shopping_cart</mat-icon> Warenkorb ({{cartData?.itemCount}})
+    </button>
   </div>
-  <div fxFlex.lt-md="auto" fxFlex="50" class="product-photos-wrap">
-    <div class="gallery-thumbnails" [@animate]="{value:'*',params:{delay: '100ms', x:'-100px'}}">
-      <img class="mat-elevation-z1" [ngClass]="{'active': image.state === '1'}" *ngFor="let image of photoGallery" [src]="image.url"
-        (click)="changeState(image)">
-    </div>
-    <div class="gallery-photo" [@animate]="{value:'*',params:{delay: '100ms', y:'50px'}}">
-      <img class="mat-elevation-z2" *ngFor="let image of photoGallery" [src]="image.url" alt="" [@fadeInOut]="image.state">
+  <div fxFlex.lt-md="auto" fxFlex="45" class="product-photos-wrap">
+    <div fxLayout="row" class="product-photos-container">
+      <div class="gallery-thumbnails" [@animate]="{value:'*',params:{delay: '100ms', x:'-100px'}}">
+        <img class="mat-elevation-z1" [ngClass]="{'active': image.state === '1'}" *ngFor="let image of photoGallery"
+          [src]="image.url" (click)="changeState(image)">
+      </div>
+      <div class="gallery-photo" [@animate]="{value:'*',params:{delay: '100ms', y:'50px'}}">
+        <!-- <mat-toolbar class="photo-toolbar">
+          <button mat-raised-button color="primary">Primary</button>
+          <button mat-raised-button color="accent" class="ml-8">Accent</button>
+        </mat-toolbar> -->
+        <img class="mat-elevation-z2" *ngFor="let image of photoGallery" [src]="image.url" alt=""
+          [@fadeInOut]="image.state">
+      </div>
     </div>
   </div>
+  <mat-divider vertical="true" class="mx-8"></mat-divider>
 
-  <div fxFlex="50" class="product-content-wrap" [@animate]="{value:'*',params:{delay: '100ms', x:'50px'}}">
+  <div fxFlex="53" class="product-content-wrap" [@animate]="{value:'*',params:{delay: '100ms', x:'50px'}}">
     <div class="product-rating" *ngIf="product?.ratings?.rating">
-      <star-rating [rating]="product?.ratings?.rating" [starType]="'svg'" [readOnly]="true" [size]="'medium'" [staticColor]="'ok'">
+      <star-rating [rating]="product?.ratings?.rating" [starType]="'svg'" [readOnly]="true" [size]="'medium'"
+        [staticColor]="'ok'">
       </star-rating>
       <small class="text-muted">{{product?.ratings?.rating}} ({{product?.ratings?.ratingCount}})</small>
     </div>
-    <h1 class="title">{{product?.name}}</h1>
+    <!-- <h1 class="title">{{product?.name}}</h1> -->
+    <h1 class="title">M&M Computer Bestseller PC</h1>
     <div class="main-info mb-16">
-      <p class="mb-8" [ngStyle]="{maxWidth: '450px'}">{{product?.description}}</p>
-      <p class="text-muted p-line"><strong>Category:</strong> <span class="mat-color-default">{{product?.category}}</span></p>
-      <p class="text-muted p-line"><strong>Tags:</strong> <span *ngFor="let t of product.tags"><span class="mat-color-default">{{t}}</span> </span></p>
+      <!-- <p class="mb-8" [ngStyle]="{maxWidth: '450px'}">{{product?.description}}</p> -->
+      <p class="mb-8" [ngStyle]="{maxWidth: '450px'}">AMD Ryzen 7 2700X CPU AM4, GTX1660 Super 6GB Gamer, 256GB SSD M.2
+        (NVMe)</p>
+      <mat-divider class="my-16"></mat-divider>  
+
+      <p class="text-muted p-line"><strong>Prozessor:</strong> <span class="mat-color-default"> AMD Ryzen 7 2700X Sockel
+          AM4 mit 8x 3.7-4.3GHz, max. 105 Watt Energieverbrauch</span></p>
+      <!-- class="mat-color-default">{{product?.category}}</span></p> -->
+
+      <p class="text-muted p-line"><strong>Grafikkarte:</strong> <span class="mat-color-default">NVIDIA GTX1660 Super
+          mit 6GB für ein packendes Gameplay in aktuellen Spielen</span></p>
+      <p class="text-muted p-line"><strong>SSD:</strong> <span class="mat-color-default"> 250GB SSD M.2 (NVMe),
+          beschleunigt den System- bzw. Programmstart erheblich</span></p>
+      <p class="text-muted p-line"><strong>Mainboard:</strong> <span class="mat-color-default"> ASRock B450M Pro4 Dual
+          USB 3.1 (A+C) , Dual M.2, 2oc Copper PCB, A-Tuning</span></p>
+      <p class="text-muted p-line"><strong>RAM:</strong> <span class="mat-color-default">16GB DDR4 RAM mit 2666MHz
+          Single Rank</span></p>
+      <p class="text-muted p-line"><strong>Optisches Laufwerk:</strong> <span class="mat-color-default">
+          DVD-Multiformat-Brenner</span></p>
+      <p class="text-muted p-line"><strong>Marken-Gehäuse:</strong> <span class="mat-color-default"> MTEC VLINE K23
+          Gehäuse</span></p>
+      <p class="text-muted p-line"><strong>Netzteil:</strong> <span class="mat-color-default"> Netzteil VLINE 600W, sehr
+          leise</span></p>
+      <p class="text-muted p-line"><strong>Betriebssystem:</strong> <span class="mat-color-default"> Microsoft Windows
+          10 Home 64bit vorinstalliert inkl. aller Treiber
+        </span></p>
+      <!-- <p class="text-muted p-line"><strong>Tags:</strong> <span *ngFor="let t of product.tags"><span
+            class="mat-color-default">{{t}}</span> </span></p> -->
     </div>
     <div class="product-options">
-      <div class="opt-radio mb-16">
-        <label class="option-label text-muted">Choose an option: </label>
+      <!-- <div class="opt-radio mb-16"> -->
+        <!-- <label class="option-label text-muted">Choose an option: </label>
         <mat-radio-group fxLayout="column" fxLayoutGap="5px">
           <mat-radio-button  [value]="'opt1'">Option 1</mat-radio-button>
           <mat-radio-button  [value]="'opt2'">Option 2</mat-radio-button>
           <mat-radio-button  [value]="'opt3'">Option 3</mat-radio-button>
-        </mat-radio-group>
-      </div>
+        </mat-radio-group> -->
+
+      <!-- </div> -->
+      <mat-divider class="my-8"></mat-divider>
+      <!-- <div fxLayout="row" fxLayoutAlign="space-between center">
+        <div class="opt-quantity mb-16">
+          <label class="option-label text-muted" for="quantity">Anzahl: </label>
+          <input class="quantity-input default-bg" id="quantity" name="quantity" type="number" [(ngModel)]="quantity">
+        </div>
+        <div class="price fs-24">
+          <span>{{product?.price?.sale | currency:'EUR'}}</span>
+          <del class="text-muted">{{product?.price?.previous | currency:'EUR'}}</del>
+        </div>
+        </div>
+        </div>
+        <div fxLayout="row">
+      
+      <button mat-raised-button color="accent" (click)="addToCart()">
+        <mat-icon>add_shopping_cart</mat-icon> Add to Cart
+      </button>
+      <span fxFlex="8px"></span>
+      <button mat-raised-button color="primary" routerLink="/shop">
+        <mat-icon>chevron_left</mat-icon> Back to Shop
+      </button>
+      </div> -->
+    </div>
+    <div fxLayout="column" class="full-width">
+      <h2 class="title">
+        PC Konfiguration
+      </h2>
+      <p class="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius sed veniam maiores consequuntur mollitia temporibus tempora placeat a corporis dolor odit voluptatibus ratione ullam veritatis dolorem voluptas, laborum asperiores in!</p>
+      <!-- <mat-card class="mx-0">
+        <mat-card-title>CPU:</mat-card-title>
+        <mat-card-content>
+          <section fxLayout="column"  class="mb-16" aria-label="Select an CPU">
+            <div fxLayout="row wrap" class="checkboxes full-width">
+              <mat-checkbox *ngFor="let cpu of cpus; let i = index" class="mb-8 mr-8" value="cpu">{{cpu}}</mat-checkbox>
+            </div>
+            <button mat-stroked-button>Anderen CPU wählen</button>
+          </section>
+        </mat-card-content>
+      </mat-card> -->
+      <ng-container>
+        <h3 class="my-8">
+          CPU:
+        </h3>
+        <section fxLayout="column"  class="mb-16" aria-label="Select an CPU">
+          <div fxLayout="row wrap" class="checkboxes full-width">
+            <mat-checkbox *ngFor="let cpu of cpus; let i = index" class="mb-8 mr-8" value="cpu">{{cpu}}</mat-checkbox>
+          </div>
+          <button mat-stroked-button>Anderen CPU wählen</button>
+        </section>
+      </ng-container>
+      <!-- <mat-divider class="py-16"></mat-divider> -->
+      <h3 class="my-8">
+        Grafikkarte:
+      </h3>
+      <section fxLayout="column" class="mb-16" aria-label="Select an Graphic Card">
+        <div fxLayout="row wrap" class="checkboxes full-width">
+          <mat-checkbox *ngFor="let graphicCard of graphicCards" class="mb-16 mr-8" value="graphicCard">{{graphicCard}}</mat-checkbox>
+        </div>
+        <button mat-stroked-button>Andere Graphikkarte wählen</button>
+      </section>
+      <!-- <mat-divider class="py-8"></mat-divider> -->
+      <h3 class="my-8">
+        SSD:
+      </h3>
+      <section fxLayout="column" class="mb-16" aria-label="Select an option">
+        <div fxLayout="row wrap" class="checkboxes full-width">
+          <mat-checkbox *ngFor="let ssd of ssds; let i = index" class="mb-8 mr-8" value="ssd"> {{ssd}}</mat-checkbox>
+        </div>
+        <button mat-stroked-button>Andere Graphikkarte wählen</button>
+      </section>
+      <!-- <mat-divider class="py-8"></mat-divider>       -->
+      <section #configurationExtension [ngClass]="{'configuration-opened': isConfigurationOpen, 'configuration-closed': !isConfigurationOpen}" class="configuration-extension full-width" fxLayout="column">
+        <h2 class="title">Erweiterte PC Konfiguration</h2>
+        <h3 class="my-8">
+          Mainboard:
+        </h3>
+        <section class="mb-16" aria-label="Select an Graphic Card">
+        <div fxLayout="row wrap" class="checkboxes full-width">
+          <mat-checkbox *ngFor="let graphicCard of graphicCards" class="mb-16 mr-8" value="graphicCard">{{graphicCard}}</mat-checkbox>
+        </div>
+        <button mat-stroked-button>Andere Graphikkarte wählen</button>
+          
+        </section>
+      <mat-divider class="py-8"></mat-divider>
+        <h3 class="my-8">
+          Netzteil:
+        </h3>
+        <section class="mb-16" aria-label="Select an option">
+          <mat-checkbox *ngFor="let ssd of ssds; let i = index" class="mb-8 mr-8" value="ssd"> {{ssd}}</mat-checkbox>
+        </section>
+      <mat-divider class="py-8"></mat-divider>
+
+        <h3 class="my-8">
+          Mainboard:
+        </h3>
+        <section class="mb-16" aria-label="Select an Graphic Card">
+          <mat-checkbox *ngFor="let graphicCard of graphicCards" class="mb-16 mr-8" value="graphicCard">{{graphicCard}}</mat-checkbox>
+        </section>
+      <mat-divider class="py-8"></mat-divider>
+
+        <h3 class="my-8">
+          Netzteil:
+        </h3>
+        <section class="mb-16" aria-label="Select an option">
+          <mat-checkbox *ngFor="let ssd of ssds; let i = index" class="mb-8 mr-8" value="ssd"> {{ssd}}</mat-checkbox>
+        </section>
+      <mat-divider class="py-8"></mat-divider>
+
+        <h3 class="my-8">
+          Mainboard:
+        </h3>
+        <section class="mb-16" aria-label="Select an Graphic Card">
+          <mat-checkbox *ngFor="let graphicCard of graphicCards" class="mb-16 mr-8" value="graphicCard">{{graphicCard}}</mat-checkbox>
+        </section>
+      <mat-divider class="py-8"></mat-divider>
+
+        <h3 class="my-8">
+          Netzteil:
+        </h3>
+        <section class="mb-16" aria-label="Select an option">
+          <mat-checkbox *ngFor="let ssd of ssds; let i = index" class="mb-8 mr-8" value="ssd"> {{ssd}}</mat-checkbox>
+        </section>
+      </section>
+      <button mat-button color="primary" class="extend-configuration-button full-width" (click)="toggleConfiguration()">
+        <mat-icon class="i-2x" [ngClass]="{'rotate1': isConfigurationOpen, 'rotate2': !isConfigurationOpen}">expand_more</mat-icon>
+        {{isConfigurationOpen ? 'Erweiterte PC Konfiguration schließen' : 'Erweiterte PC Konfiguration'}}
+      </button>
+    </div>
+    <mat-divider class="my-16"></mat-divider>
+    <div fxLayout="row" fxLayoutAlign="space-between center">
       <div class="opt-quantity mb-16">
-        <label class="option-label text-muted" for="quantity">Quantity: </label>
-        <input class="quantity-input default-bg" id="quantity" name="quantity" type="number" [(ngModel)]="quantity">
+        <label class="option-label text-muted" for="quantity">Anzahl: </label>
+        <input class="quantity-input default-bg mat-box-shadow" id="quantity" name="quantity" type="number" [(ngModel)]="quantity">
+      </div>
+      <div class="price fs-24">
+        <span>{{product?.price?.sale | currency:'EUR'}}</span>
+        <del class="text-muted">{{product?.price?.previous | currency:'EUR'}}</del>
       </div>
     </div>
     <div fxLayout="row">
-      <button mat-raised-button color="accent" (click)="addToCart()"><mat-icon>add_shopping_cart</mat-icon> Add to Cart</button>
+      <button mat-raised-button color="accent" (click)="addToCart()">
+        <mat-icon>add_shopping_cart</mat-icon> Zum Einkaufswagen hinzufügen
+      </button>
       <span fxFlex="8px"></span>
-      <button mat-raised-button color="primary" routerLink="/shop"><mat-icon>chevron_left</mat-icon> Back to Shop</button>
+      <button mat-raised-button color="primary" routerLink="/shop">
+        <mat-icon>chevron_left</mat-icon> Zurück zum Shop
+      </button>
     </div>
+    
   </div>
 </div>

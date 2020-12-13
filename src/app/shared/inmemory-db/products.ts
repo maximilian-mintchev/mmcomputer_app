@@ -2,7 +2,7 @@ export class ProductDB {
   public products = [
     {
       '_id': '5a9ae2106518248b68251fdf',
-      'name': 'Wireless Bluetooth V4.0 Portable Speaker with HD Sound and Bass',
+      'name': 'M & M Bestseller PC',
       'subtitle': 'Admodum assentior ad duo',
       'description': 'Lorem ipsum dolor sit amet, et nec putent quodsi, admodum assentior ad duo. Pri ad sapientem ocurreret incorrupte',
       'category': 'speaker',
@@ -24,10 +24,10 @@ export class ProductDB {
         'nulla laboris',
         'pariatur consequat'
       ],
-      'photo': '../../../../assets/images/products/speaker-1.jpg',
+      'photo': '../../../../assets/images/mm-pc.jpg',
       'gallery': [
-        '../../../../assets/images/products/speaker-1.jpg',
-        '../../../../assets/images/products/speaker-2.jpg'
+        '../../../../assets/images/mm-pc.jpg',
+        '../../../../assets/images/mm-pc2.jpg'
       ],
       'badge': {
         'text': '20% off',
@@ -36,7 +36,7 @@ export class ProductDB {
     },
     {
       '_id': '5a9ae210b7b4d3ad2f048bbe',
-      'name': 'Portable Speaker with HD Sound',
+      'name': 'M & M Computer Professional PC',
       'subtitle': 'Admodum assentior ad duo',
       'description': 'cillum eiusmod',
       'category': 'speaker',
@@ -58,10 +58,10 @@ export class ProductDB {
         'consectetur dolor',
         'est proident'
       ],
-      'photo': '../../../../assets/images/products/speaker-2.jpg',
+      'photo': '../../../../assets/images/mm-pc2.jpg',
       'gallery': [
-        '../../../../assets/images/products/speaker-1.jpg',
-        '../../../../assets/images/products/speaker-2.jpg'
+        '../../../../assets/images/mm-pc2.jpg',
+        '../../../../assets/images/mm-pc3.jpg'
       ],
       'badge': {
         'text': 'Sale',
@@ -70,7 +70,7 @@ export class ProductDB {
     },
     {
       '_id': '5a9ae210d9a8d6dda7256417',
-      'name': 'Lightweight On-Ear Headphones - Black',
+      'name': 'M & M Mini PCs',
       'subtitle': 'On-ear fit to minimize noise so you can hear every beat',
       'description': 'sit laborum',
       'category': 'headphone',
@@ -92,7 +92,7 @@ export class ProductDB {
         'magna eu',
         'sint quis'
       ],
-      'photo': '../../../../assets/images/products/headphone-2.jpg',
+      'photo': '../../../../assets/images/mm-pc3.jpg',
       'gallery': [
         '../../../../assets/images/products/headphone-1.jpg',
         '../../../../assets/images/products/headphone-2.jpg',
@@ -106,7 +106,7 @@ export class ProductDB {
     },
     {
       '_id': '5a9ae210e8329237332e56d7',
-      'name': 'Automatic-self-wind mens Watch 5102PR-001 (Certified Pre-owned)',
+      'name': 'M & M Professional PC',
       'subtitle': 'Admodum assentior ad duo',
       'description': 'eiusmod elit',
       'category': 'watch',
@@ -128,7 +128,7 @@ export class ProductDB {
         'ad minim',
         'duis exercitation'
       ],
-      'photo': '../../../../assets/images/products/watch-1.jpg',
+      'photo': '../../../../assets/images/mm-pc4.jpg',
       'gallery': [
         '../../../../assets/images/products/watch-1.jpg',
         '../../../../assets/images/products/watch-2.jpg'
@@ -140,7 +140,7 @@ export class ProductDB {
     },
     {
       '_id': '5a9ae210cb9937d28c6eca1a',
-      'name': 'Automatic-self-wind mens Watch 5102PR-001',
+      'name': 'M & M Mini PCs',
       'subtitle': 'Admodum assentior ad duo',
       'description': 'dolore tempor',
       'category': 'watch',
@@ -162,7 +162,7 @@ export class ProductDB {
         'excepteur non',
         'aliquip eu'
       ],
-      'photo': '../../../../assets/images/products/watch-2.jpg',
+      'photo': '../../../../assets/images/mm-pc.jpg',
       'gallery': [
         '../../../../assets/images/products/watch-1.jpg',
         '../../../../assets/images/products/watch-2.jpg'
@@ -174,7 +174,7 @@ export class ProductDB {
     },
     {
       '_id': '5a9ae2106f155194e5c95d67',
-      'name': 'On-Ear Headphones - Black',
+      'name': 'M & M Professional PC',
       'subtitle': 'Admodum assentior ad duo',
       'description': 'elit Lorem',
       'category': 'headphone',
@@ -196,9 +196,9 @@ export class ProductDB {
         'adipisicing exercitation',
         'esse incididunt'
       ],
-      'photo': '../../../../assets/images/products/headphone-3.jpg',
+      'photo': '../../../../assets/images/hdd.jpg',
       'gallery': [
-        '../../../../assets/images/products/headphone-1.jpg',
+        '../../../../assets/images/hdd.jpg',
         '../../../../assets/images/products/headphone-2.jpg',
         '../../../../assets/images/products/headphone-3.jpg',
         '../../../../assets/images/products/headphone-4.jpg'
@@ -210,7 +210,7 @@ export class ProductDB {
     },
     {
       '_id': '5a9ae2101625a02fee92e27f',
-      'name': 'In-Ear Headphone',
+      'name': 'M & M Bestseller PC',
       'subtitle': 'Admodum assentior ad duo',
       'description': 'proident non',
       'category': 'headphone',

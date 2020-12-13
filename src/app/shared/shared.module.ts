@@ -1,3 +1,5 @@
+import { SharedMaterialModule } from './shared-material.module';
+// import { SharedMaterialModule } from 'app/shared/shared-material.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -19,7 +21,8 @@ import { SharedDirectivesModule } from './directives/shared-directives.module';
   CommonModule,
     SharedComponentsModule,
     SharedPipesModule,
-    SharedDirectivesModule    
+    SharedDirectivesModule,
+    SharedMaterialModule    
   ],
   providers: [
     ThemeService,
@@ -33,7 +36,8 @@ import { SharedDirectivesModule } from './directives/shared-directives.module';
   exports: [
     SharedComponentsModule,
     SharedPipesModule,
-    SharedDirectivesModule
+    SharedDirectivesModule,
+    SharedMaterialModule
   ]
 })
 export class SharedModule { }

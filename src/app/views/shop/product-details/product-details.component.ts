@@ -19,6 +19,14 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   public cart: CartItem[];
   public cartData: any;
   private productSub: Subscription;
+  public cpus: string [] = ['Ryzen 5 2600X', 'Ryzen 5 2600', 'Ryzen 7 2700', 'Ryzen 5 3600', 'Ryzen 7 2700X', 'Ryzen 7 3700X'];
+  public graphicCards: string [] = ['GTX 1650 4GB', 'GTX 1660S 6GB', 'RTX 2060 6GB', 'RTX 2060 Super'];
+  public ssds: string[] = ['256GB SSD M.2', '500GB SSD M.2', '1TB SSD M.2', 'Option 2'];
+  public selectedCPU: string;
+  public selectedGraphicCard: string;
+  public selectedSSD: string;
+  public selectedHDD: string;
+  public isConfigurationOpen = false;
 
   public photoGallery: any[] = [{url: '', state: '0'}];
   constructor(
@@ -104,6 +112,10 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       p.state = '0';
       return p;
     })
+  }
+
+  toggleConfiguration(): void {
+    this.isConfigurationOpen = !this.isConfigurationOpen;
   }
 
 }

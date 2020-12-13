@@ -1,4 +1,5 @@
 import { Injectable, Renderer2 } from '@angular/core';
+import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { BehaviorSubject } from 'rxjs';
 import { getQueryParam } from '../helpers/url.helper';
 import { ThemeService } from './theme.service';
@@ -38,8 +39,10 @@ export class LayoutService {
   public isMobile: boolean;
   public currentRoute: string;
   public fullWidthRoutes = ['shop'];
+  public media: string;
+  // private mediaObserver: MediaObserver;
 
-  constructor(private themeService: ThemeService) {
+  constructor(private themeService: ThemeService, private mediaObserver: MediaObserver) {
     this.setAppLayout(
       // ******** SET YOUR LAYOUT OPTIONS HERE *********
       {
@@ -58,6 +61,20 @@ export class LayoutService {
         perfectScrollbar: true,
       }
     );
+
+    this.mediaObserver.asObservable().subscribe((changes: MediaChange[]) => {
+      console.log('MediaChange');
+      console.log(changes);
+      changes.forEach((change: MediaChange) => {
+        switch(change.mqAlias) {
+          case 'lt-md':
+            this.media = 'lt-md';
+            break;
+        }
+      });
+    });
+
+    
   }
 
   setAppLayout(layoutConf: ILayoutConf) {
@@ -113,4 +130,6 @@ export class LayoutService {
   isSm() {
     return window.matchMedia(`(max-width: 959px)`).matches;
   }
+
+
 }

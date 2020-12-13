@@ -1,3 +1,4 @@
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { MatTreeModule } from '@angular/material/tree';
 import { NgModule } from '@angular/core';
@@ -53,6 +54,7 @@ import { SharedDirectivesModule } from 'app/shared/directives/shared-directives.
     MatTabsModule,
     MatInputModule,
     MatSelectModule,
+    MatToolbarModule,
     MatSliderModule,
     MatExpansionModule,
     MatSnackBarModule,

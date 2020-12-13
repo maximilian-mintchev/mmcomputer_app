@@ -1,19 +1,21 @@
-<div >
+<div>
   <mat-sidenav-container>
     <mat-sidenav EgretSideNavToggle class="shop-sidebar default-light-bg mat-bg-primary text-white" perfectScrollbar>
       <div class="shop-filters-wrap">
         <form [formGroup]="filterForm">
           <mat-tree class="mat-bg-primary text-white" [dataSource]="dataSource" [treeControl]="treeControl">
             <!-- This is the tree node template for leaf nodes -->
-            <mat-tree-node  *matTreeNodeDef="let node" matTreeNodePadding matTreeNodePaddingIndent="20" style="color: #fafafa;">
+            <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding matTreeNodePaddingIndent="20"
+              style="color: #fafafa;">
               <!-- use a disabled button to provide padding for tree leaf -->
               <button class="text-white" mat-icon-button disabled></button>
               {{node.name}}
             </mat-tree-node>
             <!-- This is the tree node template for expandable nodes -->
-            <mat-tree-node [ngStyle]="{'border-bottom': node.level === 0 ? '2px solid #fafafa' : 'none'}" *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding matTreeNodePaddingIndent="20" style="color: #fafafa;">
-              <button mat-icon-button matTreeNodeToggle
-                      [attr.aria-label]="'Toggle ' + node.name">
+            <mat-tree-node [ngStyle]="{'border-bottom': node.level === 0 ? '2px solid #fafafa' : 'none'}"
+              *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding matTreeNodePaddingIndent="20"
+              style="color: #fafafa;">
+              <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
                 <mat-icon class="mat-icon-rtl-mirror">
                   <!-- {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}} -->
                   {{treeControl.isExpanded(node) ? 'remove' : 'add'}}
@@ -22,7 +24,7 @@
               {{node.name}}
             </mat-tree-node>
           </mat-tree>
-          
+
           <!-- <mat-accordion multi="true" displayMode="flat">
             <mat-expansion-panel expanded="true">
               <mat-expansion-panel-header>
@@ -71,38 +73,45 @@
       <div class="full-width">
         <!-- Search Form -->
         <div fxLayout="row" fxLayout.lt-sm="column" class="shop-top-toolbar">
-          <button mat-icon-button class="mr-16" (click)="toggleSideNav()"><mat-icon>short_text</mat-icon> </button>
+          <button mat-icon-button class="mr-16" (click)="toggleSideNav()">
+            <mat-icon>short_text</mat-icon>
+          </button>
           <div fxFlex="1 1 auto" class="product-search-wrap mr-16">
             <form [formGroup]="filterForm">
-              <input type="text" name="searchProduct" placeholder="Suche Produkt" class="product-search default-bg full-width mat-box-shadow" [formControl]="filterForm.controls['search']" autocomplete="off" spellcheck="false">
+              <input type="text" name="searchProduct" placeholder="Suche Produkt"
+                class="product-search default-bg full-width mat-box-shadow"
+                [formControl]="filterForm.controls['search']" autocomplete="off" spellcheck="false">
             </form>
           </div>
           <!-- View change buttons and cart -->
           <!-- <span fxFlex></span> -->
           <div [fxHide.lt-md]="true">
-            <button mat-icon-button [color]="viewMode === 'list-view' ? 'primary' : ''" (click)="viewMode = 'list-view'">
+            <!-- viewMode = 'list-view' -->
+            <button mat-icon-button [color]="(productConfig$ | async)?.viewMode === 'list-view' ? 'primary' : ''"
+              (click)="setViewMode('list-view')">
               <mat-icon>format_list_bulleted</mat-icon>
             </button>
-            <button mat-icon-button [color]="viewMode === 'grid-view' ? 'primary' : ''" (click)="viewMode = 'grid-view'">
+            <!-- viewMode = 'grid-view' -->
+            <button mat-icon-button [color]="(productConfig$ | async)?.viewMode === 'grid-view' ? 'primary' : ''"
+              (click)="setViewMode('grid-view')">
               <mat-icon>apps</mat-icon>
             </button>
           </div>
           <span fxFlex="20px"></span>
           <button mat-raised-button color="primary" routerLink="/shop/cart">
-            <mat-icon>shopping_cart</mat-icon> Einkaufswagen ({{cartData.itemCount}})
+            <mat-icon>shopping_cart</mat-icon> Warenkorb ({{cartData.itemCount}})
           </button>
         </div>
         <mat-divider class="my-16"></mat-divider>
         <!-- Products container -->
-        <div class="product-container" 
-        [ngClass]="{'list-view': viewMode === 'list-view'}">
+        <div class="product-container" [ngClass]="{'list-view': (productConfig$ | async)?.viewMode === 'list-view'}">
           <!-- Product Box -->
-          <div  
-          class="product-wrap" 
-          *ngFor="let product of products$ | async | paginate: { itemsPerPage: 6, currentPage: currentPage }; let i = index;"
-          [@animate]="{value:'*',params:{delay: (i*100)+'ms', y:'50px'}}">
+          <div class="product-wrap"
+            *ngFor="let product of products$ | async | paginate: { itemsPerPage: 12, currentPage: currentPage }; let i = index;"
+            [@animate]="{value:'*',params:{delay: (i*100)+'ms', y:'50px'}}">
             <div class="product-inner default-bg">
-              <div *ngIf="product?.badge?.text" class="product-badge mat-elevation-z7" [ngStyle]="{background: product?.badge?.color || '#f44336'}">
+              <div *ngIf="product?.badge?.text" class="product-badge mat-elevation-z7"
+                [ngStyle]="{background: product?.badge?.color || '#f44336'}">
                 <span>{{product?.badge?.text}}</span>
               </div>
               <div class="featured-img" [routerLink]="['/shop/products/', product._id]">
@@ -119,17 +128,20 @@
                     <span *ngFor="let t of product.tags">{{t}} </span>
                   </p>
                 </div>
+                <!-- <mat-divider></mat-divider> -->
+                <mat-divider></mat-divider>
                 <div class="actions">
                   <div class="price-rating">
-                    <div class="product-rating" *ngIf="viewMode === 'grid-view'">
-                      <star-rating [rating]="product.ratings.rating" [starType]="'svg'" [readOnly]="true" [size]="'small'" [staticColor]="'ok'"></star-rating>
+                    <div class="product-rating" *ngIf="(productConfig$ | async)?.viewMode === 'grid-view'">
+                      <star-rating [rating]="product.ratings.rating" [starType]="'svg'" [readOnly]="true"
+                        [size]="'small'" [staticColor]="'ok'"></star-rating>
                       <small class="text-muted">({{product.ratings.ratingCount}})</small>
                     </div>
                     <div class="price">
                       <span>{{product?.price?.sale | currency:'USD'}}</span>
                       <del class="text-muted">{{product?.price?.previous | currency:'USD'}}</del>
                     </div>
-  
+
                   </div>
                   <div class="add-to-cart">
                     <span fxFlex></span>
@@ -140,11 +152,12 @@
                 </div>
               </div>
               <!-- Visible when viewMode === list-view -->
-              <div class="more-info-wrap p-16" *ngIf="viewMode === 'list-view'">
+              <div class="more-info-wrap p-16" *ngIf="(productConfig$ | async)?.viewMode === 'list-view'">
                 <div class="more-info">
                   <div class="more-actions mb-16">
                     <div class="product-rating">
-                      <star-rating [starType]="'svg'" [readOnly]="true" [size]="'medium'" [staticColor]="'ok'" [rating]="4.63"></star-rating>
+                      <star-rating [starType]="'svg'" [readOnly]="true" [size]="'medium'" [staticColor]="'ok'"
+                        [rating]="4.63"></star-rating>
                       <small class="text-muted">(140)</small>
                     </div>
                     <span fxFlex></span>
@@ -155,36 +168,41 @@
                       <mat-icon>favorite</mat-icon>
                     </button>
                   </div>
-  
+
                   <div>
                     <ul>
                       <li>
-                        <mat-icon>check</mat-icon> Heavy duty</li>
+                        <mat-icon>check</mat-icon> Heavy duty
+                      </li>
                       <li>
-                        <mat-icon>check</mat-icon> Water resistance</li>
+                        <mat-icon>check</mat-icon> Water resistance
+                      </li>
                       <li>
-                        <mat-icon>check</mat-icon> Clean design</li>
+                        <mat-icon>check</mat-icon> Clean design
+                      </li>
                       <li>
-                        <mat-icon>check</mat-icon> High quality raw materials</li>
+                        <mat-icon>check</mat-icon> High quality raw materials
+                      </li>
                     </ul>
                   </div>
-  
+
                 </div>
+                
               </div>
-  
+
             </div>
           </div>
           <mat-divider class="my-16"></mat-divider>
           <!-- End Product -->
-  
+
           <div class="products-pagination">
             <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
           </div>
-  
+
         </div>
         <!-- End Products container -->
       </div>
-  
+
     </div>
   </mat-sidenav-container>
 </div>

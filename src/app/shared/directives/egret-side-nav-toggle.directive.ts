@@ -39,6 +39,7 @@ export class EgretSideNavToggleDirective implements OnInit, OnDestroy {
     this.updateSidenav();
     this.screenSizeWatcher = this.mediaObserver.media$.subscribe((change: MediaChange) => {
       this.isMobile = (change.mqAlias == 'xs') || (change.mqAlias == 'sm');
+      
       this.updateSidenav();
     });
   }

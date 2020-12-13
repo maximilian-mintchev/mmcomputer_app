@@ -102,7 +102,8 @@ h1.title {
   }
 
   .product-wrap {
-    width: 33.333%;
+    width: 25%;
+    // width: 100%;
     float: left;
     .product-inner {
       display: flex;
@@ -140,7 +141,19 @@ h1.title {
         display: flex;
         flex-direction: column;
         cursor: pointer;
-        min-height: 180px;
+        // min-height: 180px;
+        // max-height: ;
+        height: auto;
+        max-height: 100%;
+        max-width: 100%;
+        img {
+          margin: auto;
+          object-fit: scale-down;
+          width: 250px;
+          height: 250px;
+          // width: 250px;
+          // height: auto;
+        }
       }
       .info-wrap {
         display: flex;
@@ -203,34 +216,7 @@ h1.title {
 }
 
 .product-details-wrap {
-  .gallery-photo {
-    min-height: 400px;
-    width: calc(100% - 80px);
-    float: left;
-    padding-right: 1rem;
-    margin-bottom: 1rem;
-    img {
-      width: 100%;
-      height: auto;
-      border-radius: 4px;
-    }
-  }
-  .gallery-thumbnails {
-    width: 80px;
-    float: left;
-    padding-right: .667rem;
-    img {
-      width: 100%;
-      border-radius: 2px;
-      display: inline-block;
-      opacity: 1;
-      cursor: pointer;
-      transition: all .3s ease-in;
-      &.active {
-        opacity: .6;
-      }
-    }
-  }
+  
 }
 
 
@@ -269,13 +255,18 @@ h1.title {
 }
 
 @media (max-width: 1100px) {
-  .product-container {
-    .product-wrap {
-      width: 50%;
-    }
-  }
+  // .product-container {
+  //   .product-wrap {
+  //     width: 25%;
+  //   }
+  // }
 }
 @media (max-width: 960px) {
+  .product-container {
+    .product-wrap {
+      width: 33.333333%;
+    }
+  }
   .shop-filters-wrap {
     margin: 0;
     padding: 0;
@@ -287,13 +278,20 @@ h1.title {
 @media (max-width: 680px) {
   .product-container {
     .product-wrap {
-      width: 100%;
+      width: 50%;
     }
   }
 
   .product-details-wrap {
     .gallery-photo {
       min-height: auto;
+    }
+  }
+}
+@media (max-width: 499px) {
+  .product-container {
+    .product-wrap {
+      width: 100%;
     }
   }
 }

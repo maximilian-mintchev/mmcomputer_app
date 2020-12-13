@@ -1,3 +1,4 @@
+import { ComponentType } from './component-type.model';
 export class Product {
   public _id: string;
   public name: string;
