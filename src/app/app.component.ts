@@ -49,13 +49,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 
 
-  public login() {
-    this.oauthService.initLoginFlow();
-  }
 
-  public logoff() {
-    this.oauthService.logOut();
-  }
 
   private configure() {
     this.oauthService.configure(this.authConfig);

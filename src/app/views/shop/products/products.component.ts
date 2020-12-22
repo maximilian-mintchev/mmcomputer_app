@@ -11,6 +11,8 @@ import { AppLoaderService } from '../../../shared/services/app-loader/app-loader
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import {LayoutService} from '../../../shared/services/layout.service';
+import {OAuthService} from "angular-oauth2-oidc";
+import {CloudService} from "../../../shared/services/cloud.service";
 
 const TREE_DATA: FoodNode[] = [
   {
@@ -810,7 +812,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private loader: AppLoaderService,
-    private _layout: LayoutService
+    private _layout: LayoutService,
+    private oauthService: OAuthService,
+    private cloudService: CloudService
   ) {
     this.dataSource.data = TREE_DATA;
   }
@@ -894,5 +898,18 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   isLtSm(): boolean {
     return this._layout.isLtSm();
+  }
+
+  public login() {
+    this.oauthService.initLoginFlow();
+  }
+
+  public logoff() {
+    this.oauthService.logOut();
+  }
+  testApi() {
+    this.cloudService.getHeroes().subscribe(() => {
+      alert('Received message');
+    });
   }
 }
