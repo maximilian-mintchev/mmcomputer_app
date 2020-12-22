@@ -1,24 +1,53 @@
+import { Component } from '@angular/core';
 import { ComponentType } from './component-type.model';
-import { Component } from './component.model';
+import { ComponentConfiguration } from './component-configuration.model';
 import { Product } from './product.model';
+
+
+
 export class PC {
-    //CpU Type
-    // Product
 
-    private _CPU: Component<ComponentType.CPU>;
-    private _GraphicsCards: Component<ComponentType.GraphicsCard>
-    private _SSD: Component<ComponentType.SSD>;
-    private _HDD: Component<ComponentType.HDD>;
-    private _Mainboard: Component<ComponentType.Mainboard>;
-    private _RAM: Component<ComponentType.RAM>;
-    private _Soundcard: Component<ComponentType.Soundcard>;
-    private _Networkcard: Component<ComponentType.Networkcard>;
-    private _Mouse: Component<ComponentType.Mouse>;
-    private _OperatingSystem: Component<ComponentType.OperatingSystem>;
-    private _Software: Component<ComponentType.Software>;
+    private _integratedComponents: Map<ComponentType, ComponentConfiguration> = new Map<ComponentType, ComponentConfiguration>();
 
+    // wenn componenttype nicht inital dann null
+    constructor(integratedComponents: Map<ComponentType, ComponentConfiguration>) {
+        this._integratedComponents = integratedComponents;
+    }
+
+    /**
+     * Getter integratedComponents
+     * @return {Map<ComponentType, ComponentConfiguration> }
+     */
+    public get integratedComponents(): Map<ComponentType, ComponentConfiguration> {
+        return this._integratedComponents;
+    }
 
     
 
+    public addProduct(componentType: ComponentType, selectedProduct: Product): void {
+        const componentConfiguration: ComponentConfiguration = this.integratedComponents.get(componentType);
+        componentConfiguration.addProduct(selectedProduct);
+        // if(this.canAddProduct(componentType)) {
+        // }
+    }
+
+    public canAddProduct(componentType: ComponentType): boolean {
+        const componentConfiguration: ComponentConfiguration = this.integratedComponents.get(componentType);
+        return componentConfiguration.canAddProduct();
+    }
+
+    
+
+    calculateFinalPrice(): number {
+        let sumPrice: number = 0;
+        this.integratedComponents.forEach((componentConfiguration: ComponentConfiguration, componentType: ComponentType) => {
+            sumPrice *= sumPrice + componentConfiguration.calculatePrice();
+        });
+        return sumPrice;
+    }
+
+    calculatePrice(componentType: ComponentType) {
+        return this._integratedComponents.get(componentType).calculatePrice();
+    }
 
 }

@@ -83,7 +83,23 @@ export class UILibIconService {
       'fileName': 'business_card_of_a_man_with_contact_info.svg'
     },
     { 'name': 'ulb_help', 'fileName': 'help.svg' },
-    { 'name': 'ulb_list_1', 'fileName': 'list_1.svg' }
+    { 'name': 'ulb_list_1', 'fileName': 'list_1.svg' },
+    
+    { 'name': 'cpu', 'fileName': 'cpu.svg' },
+    { 'name': 'graphics_card', 'fileName': 'graphics-card.svg' },
+    { 'name': 'ssd', 'fileName': 'ssd.svg' },
+    { 'name': 'hdd', 'fileName': 'festplatte.svg' },
+    { 'name': 'motherboard', 'fileName': 'motherboard.svg' },
+    { 'name': 'ram', 'fileName': 'ram.svg' },
+    { 'name': 'sound_card', 'fileName': 'sound-card.svg' },
+    { 'name': 'network_card', 'fileName': 'pci-card-network.svg' },
+    { 'name': 'case', 'fileName': 'hardware.svg' },
+    { 'name': 'operating_system', 'fileName': 'system.svg' },
+    { 'name': 'software', 'fileName': 'coding.svg' },
+    { 'name': 'keyboard', 'fileName': 'keyboard.svg' },
+    { 'name': 'mouse', 'fileName': 'mouse.svg' },
+
+
   ]
 
   constructor(

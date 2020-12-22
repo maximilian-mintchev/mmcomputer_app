@@ -3,13 +3,14 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ShopService, CartItem } from '../shop.service';
 import { Product } from '../../../shared/models/product.model';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms'
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Subscription, Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { egretAnimations } from '../../../shared/animations/egret-animations';
 import { AppLoaderService } from '../../../shared/services/app-loader/app-loader.service';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
+import {LayoutService} from '../../../shared/services/layout.service';
 
 const TREE_DATA: FoodNode[] = [
   {
@@ -725,17 +726,17 @@ const TREE_DATA: FoodNode[] = [
       },
       { name: 'Steckdosenleisten' },
       { name: 'HUBs/Verteiler' },
-      { 
+      {
         name: 'Dataswitches',
         children: [
           { name: 'Zubehör' },
-        ] 
+        ]
       },
-      { 
+      {
         name: 'sonstiges',
         children: [
           { name: 'Powerbank' },
-        ] 
+        ]
       },
     ]
   },
@@ -751,8 +752,8 @@ interface FoodNode {
 }
 
 interface IProductConfig {
-  viewMode: string,
-  pcConfigMode: boolean
+  viewMode: string;
+  pcConfigMode: boolean;
 }
 
 
@@ -777,7 +778,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   public productConfig: IProductConfig = {
     viewMode: 'grid-view',
     pcConfigMode: false
-  }
+  };
 
   public productConfig$: BehaviorSubject<IProductConfig> = new BehaviorSubject(this.productConfig);
 
@@ -787,28 +788,29 @@ export class ProductsComponent implements OnInit, OnDestroy {
   public filterForm: FormGroup;
   public cart: CartItem[];
   public cartData: any;
+  treeControl = new FlatTreeControl<ExampleFlatNode>(
+      node => node.level, node => node.expandable);
 
   private _transformer = (node: FoodNode, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
       name: node.name,
-      level: level,
+      level,
     };
   }
 
-  treeControl = new FlatTreeControl<ExampleFlatNode>(
-    node => node.level, node => node.expandable);
-
   treeFlattener = new MatTreeFlattener(
-    this._transformer, node => node.level, node => node.expandable, node => node.children);
-
+      this._transformer, node => node.level, node => node.expandable, node => node.children);
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+
+
 
   constructor(
     private shopService: ShopService,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private loader: AppLoaderService
+    private loader: AppLoaderService,
+    private _layout: LayoutService
   ) {
     this.dataSource.data = TREE_DATA;
   }
@@ -840,11 +842,11 @@ export class ProductsComponent implements OnInit, OnDestroy {
       .getCart()
       .subscribe(cart => {
         this.cart = cart;
-      })
+      });
   }
   addToCart(product) {
-    let cartItem: CartItem = {
-      product: product,
+    const cartItem: CartItem = {
+      product,
       data: {
         quantity: 1
       }
@@ -854,7 +856,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
       .subscribe(cart => {
         this.cart = cart;
         this.snackBar.open('Product added to cart', 'OK', { duration: 4000 });
-      })
+      });
   }
 
   buildFilterForm(filterData: any = {}) {
@@ -865,11 +867,11 @@ export class ProductsComponent implements OnInit, OnDestroy {
       maxPrice: [filterData.maxPrice],
       minRating: [filterData.minRating],
       maxRating: [filterData.maxRating]
-    })
+    });
   }
   setActiveCategory(category) {
     this.activeCategory = category;
-    this.filterForm.controls['category'].setValue(category)
+    this.filterForm.controls['category'].setValue(category);
   }
 
   toggleSideNav() {
@@ -877,16 +879,20 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   setViewMode(viewMode: string) {
-    if(viewMode !== this.productConfig.viewMode) {
+    if (viewMode !== this.productConfig.viewMode) {
       this.productConfig.viewMode = viewMode;
       this.productConfig$.next(this.productConfig);
     }
   }
 
   public setPcConfigMode(pcConfigMode: boolean) {
-    if(pcConfigMode !== this.productConfig.pcConfigMode) {
+    if (pcConfigMode !== this.productConfig.pcConfigMode) {
       this.productConfig.pcConfigMode = pcConfigMode;
       this.productConfig$.next(this.productConfig);
     }
+  }
+
+  isLtSm(): boolean {
+    return this._layout.isLtSm();
   }
 }

@@ -36,7 +36,7 @@
       <!-- [perfectScrollbar]="scrollConfig" -->
       <!-- [disabled]="!layoutConf.topbarFixed || !layoutConf.perfectScrollbar" -->
       <!-- [ngClass.md]="px-16" [ngClass.lg]="px-16" [ngClass.xl]="px-16" -->
-      <div class="rightside-content-hold" [ngStyle.xs]="{'height': 'calc(100vh - 96px)'}" [ngStyle.sm]="{'height': 'calc(100vh - 96px)'}" id="rightside-content-hold">
+      <div class="rightside-content-hold" [ngStyle.xs]="{'height': 'calc(100vh - 45px)', 'margin-top': '45px'}" [ngStyle.gt-xs]="{'height': 'calc(100vh - 90px)', 'margin-top': '90px'}" id="rightside-content-hold">
         <!-- View Loader -->
         <div class="view-loader" *ngIf="isModuleLoading" style="position:fixed;"
         fxLayout="column" fxLayoutAlign="center center">
@@ -46,7 +46,9 @@
           </div>
         </div>
         <!-- Breadcrumb -->
-        <app-breadcrumb></app-breadcrumb>
+        <!-- <app-breadcrumb>
+
+        </app-breadcrumb> -->
         <!-- View outlet -->
         <div class="container-dynamic">
           <router-outlet></router-outlet>

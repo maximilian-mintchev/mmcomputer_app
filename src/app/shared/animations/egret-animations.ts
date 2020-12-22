@@ -36,7 +36,8 @@ const reusable = animation(
 
 export const egretAnimations = [
   trigger('animate', [transition('void => *', [useAnimation(reusable)])]),
-
+  trigger('animate', [transition('* => void', [useAnimation(reusable)])]),
+  // trigger(':leave', [transition('void => *', [useAnimation(reusable)])]),
   trigger('fadeInOut', [
     state(
       '0',
@@ -55,4 +56,26 @@ export const egretAnimations = [
     transition('0 => 1', animate('300ms')),
     transition('1 => 0', animate('300ms')),
   ]),
+  //Source: https://medium.com/ngconf/animating-angulars-ngif-and-ngfor-32a6ff26ed2d
+  trigger(
+    'inOutAnimation', 
+    [
+      transition(
+        ':enter', 
+        [
+          style({ height: 0, opacity: 0 }),
+          animate('0.5s ease-out', 
+                  style({ height: 300, opacity: 1 }))
+        ]
+      ),
+      transition(
+        ':leave', 
+        [
+          style({ height: 300, opacity: 1 }),
+          animate('0.7s ease-in', 
+                  style({ height: 0, opacity: 0 }))
+        ]
+      )
+    ]
+  )
 ];

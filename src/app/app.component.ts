@@ -6,6 +6,7 @@ import { RoutePartsService } from './shared/services/route-parts.service';
 
 import { filter } from 'rxjs/operators';
 import { UILibIconService } from './shared/services/ui-lib-icon.service';
+import {AuthConfig, NullValidationHandler, OAuthService} from 'angular-oauth2-oidc';
 
 @Component({
   selector: 'app-root',
@@ -13,17 +14,30 @@ import { UILibIconService } from './shared/services/ui-lib-icon.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, AfterViewInit {
-  appTitle = 'MM Computer';
+  appTitle = 'MMComputer';
   pageTitle = '';
+
+  authConfig: AuthConfig = {
+    issuer: 'http://localhost:8080/auth/realms/mmcomputer',
+    redirectUri: window.location.origin + '/shop',
+    clientId: 'app-mmcomputer',
+    scope: 'openid profile email offline_access heroes',
+    responseType: 'code',
+    // at_hash is not present in JWT token
+    disableAtHashCheck: true,
+    showDebugInformation: true
+  };
 
   constructor(
     public title: Title,
     private router: Router,
     private activeRoute: ActivatedRoute,
     private routePartsService: RoutePartsService,
-    private iconService: UILibIconService
+    private iconService: UILibIconService,
+    private oauthService: OAuthService
   ) {
-    iconService.init()
+    iconService.init();
+    this.configure();
   }
 
   ngOnInit() {
@@ -32,6 +46,28 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
   }
+
+
+
+  public login() {
+    this.oauthService.initLoginFlow();
+  }
+
+  public logoff() {
+    this.oauthService.logOut();
+  }
+
+  private configure() {
+    this.oauthService.configure(this.authConfig);
+    this.oauthService.tokenValidationHandler = new  NullValidationHandler();
+    this.oauthService.loadDiscoveryDocumentAndTryLogin();
+  }
+
+
+
+
+
+
 
   changePageTitle() {
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((routeChange) => {
@@ -43,7 +79,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.pageTitle = routeParts
                       .reverse()
                       .map((part) => part.title )
-                      .reduce((partA, partI) => {return `${partA} > ${partI}`});
+                      .reduce((partA, partI) => `${partA} > ${partI}`);
       this.pageTitle += ` | ${this.appTitle}`;
       this.title.setTitle(this.pageTitle);
     });

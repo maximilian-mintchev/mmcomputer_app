@@ -25,7 +25,7 @@ export class HeaderTopComponent implements OnInit, OnDestroy {
   }]
   @Input() notificPanel;
   constructor(
-    private layout: LayoutService,
+    public layout: LayoutService,
     private navService: NavigationService,
     public themeService: ThemeService,
     public translate: TranslateService,
@@ -76,5 +76,14 @@ export class HeaderTopComponent implements OnInit, OnDestroy {
     this.layout.publishLayoutChange({
       sidebarStyle: 'closed'
     })
+  }
+  isLtMd(): boolean {
+    return this.layout.isLtMd();
+  }
+  isGtSm(): boolean {
+    return this.layout.isGtSm();
+  }
+  isLtSm(): boolean {
+    return this.layout.isLtSm();
   }
 }

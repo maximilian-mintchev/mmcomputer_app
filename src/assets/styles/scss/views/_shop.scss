@@ -40,7 +40,7 @@ h1.title {
 }
 
 .shop-wrap {
-  margin: 1rem .33rem .33rem;
+  // margin: 1rem .33rem .33rem;
   overflow: hidden;
   min-height: 750px;
 }
@@ -70,6 +70,7 @@ h1.title {
 .shop-top-toolbar {
   margin-bottom: .5rem;
   padding: 0 8px;
+  //height: 64px;
 }
 .product-search-wrap {
   .product-search {
@@ -110,7 +111,7 @@ h1.title {
       flex-direction: column;
       position: relative;
       border-radius: 4px;
-      box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+      // box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
       overflow: hidden;
       margin: 8px;
       transition: all .3s $transitionTiming;
@@ -149,8 +150,8 @@ h1.title {
         img {
           margin: auto;
           object-fit: scale-down;
-          width: 250px;
-          height: 250px;
+          width: 200px;
+          height: 150px;
           // width: 250px;
           // height: auto;
         }
@@ -161,7 +162,7 @@ h1.title {
         .main-info {
           width: 100%;
           margin-bottom: 1rem;
-          min-height: 150px;
+          min-height: 130px;
           .title {
             margin: 0;
             font-size: 1.2rem;

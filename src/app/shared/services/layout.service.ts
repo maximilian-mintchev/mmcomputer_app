@@ -66,7 +66,7 @@ export class LayoutService {
       console.log('MediaChange');
       console.log(changes);
       changes.forEach((change: MediaChange) => {
-        switch(change.mqAlias) {
+        switch (change.mqAlias) {
           case 'lt-md':
             this.media = 'lt-md';
             break;
@@ -74,7 +74,7 @@ export class LayoutService {
       });
     });
 
-    
+
   }
 
   setAppLayout(layoutConf: ILayoutConf) {
@@ -107,7 +107,6 @@ export class LayoutService {
       this.themeService.changeTheme(prevTheme, this.layoutConf.matTheme);
     } catch (e) {}
   }
-
   adjustLayout(options: IAdjustScreenOptions = {}) {
     let sidebarStyle: string;
     this.isMobile = this.isSm();
@@ -130,6 +129,16 @@ export class LayoutService {
   isSm() {
     return window.matchMedia(`(max-width: 959px)`).matches;
   }
+  isLtMd(): boolean {
+    // console.log(window.matchMedia(`screen and (max-width: 959px)`).matches);
+    return window.matchMedia(`screen and (max-width: 959px)`).matches;
+  }
+  isGtSm(): boolean {
+    // console.log(window.matchMedia(`screen and (min-width: 960px)`).matches);
+    return window.matchMedia(`screen and (min-width: 960px)`).matches;
+  }
 
-
+  isLtSm(): boolean {
+    return window.matchMedia('screen and (max-width: 599px)').matches;
+  }
 }

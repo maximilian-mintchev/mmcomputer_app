@@ -1,23 +1,12 @@
-<div fxLayout="column" class="header-topnav mat-elevation-z2">
-  <!-- <div class="container"> -->
+<!-- <div fxLayout="column" class="header-topnav mat-elevation-z2">
     <div class="topnav mat-bg-primary" style="position: relative;">
-      <!-- App Logo -->
       <div class="topbar-branding text-white fw-900 fs-32 ls-8 ml-48 h-48">
-        <!-- <img src="assets/images/egret.png" alt="" class="app-logo"> -->
         <span class="lh-48">M & M Computer</span>
       </div>
-      
       <div class="full-width h-4" style="position: absolute; left: 0; bottom: 0; background: #B3E0F9; z-index: 2;">
-        <!-- <mat-progress-bar mode="indeterminate"></mat-progress-bar> -->
       </div>
     </div>
-  <!-- </div> -->
-  <!-- <div class="container"> -->
     <div class="topnav">
-      <!-- App Logo -->
-      <!-- <div class="topbar-branding">
-        <img src="assets/images/egret.png" alt="" class="app-logo">
-      </div> -->
       <ul class="menu" *ngIf="!layoutConf.isMobile">
         <li *ngFor="let item of menuItems; let i = index;">
           <div *ngIf="item.type !== 'separator'" routerLinkActive="open">
@@ -47,7 +36,6 @@
                       <mat-icon *ngIf="itemLvL2.icon">{{itemLvL2.icon}}</mat-icon> {{itemLvL2.name | translate}}
                     </a>
                     <input type="checkbox" id="drop-{{i}}{{j}}" />
-                    <!-- Level 3 -->
                     <ul>
                       <li *ngFor="let itemLvL3 of itemLvL2.sub" routerLinkActive="open">
                         <a matRipple
@@ -73,10 +61,96 @@
           <span class="full-width mb-auto fs-16 lh-16"><strong>+ 49 351 438 3437</strong></span>
         </div>
       </div>
-      <!-- <span fxFlex></span> -->
       <button mat-icon-button class="mr-16" (click)="toggleSidenav()" *ngIf="layoutConf.isMobile">
         <mat-icon>menu</mat-icon>
       </button>
     </div>
-  <!-- </div> -->
+</div> -->
+
+<div fxLayout="row" [ngStyle.xs]="{'height': '45px'}" [ngStyle.gt-xs]="{'height': '90px'}"  class="header-topnav" fxLayoutGap="10px">
+  <div fxHide.xs="true" fxLayout="row" fxLayoutAlign="start center" class="mx-8">
+    <div fxLayout="row" fxLayoutAlign="center center" class="mat-box-shadow mat-bg-primary br-8 w-80  h-80">
+      <div fxLayout="row" fxLayoutAlign="center end" style="width: 98%; height: 98%; border: 2px solid white;"
+        class="br-8">
+        <div fxLayout="column" style="text-align: center;" class="px-8 fw-900 text-white">
+          <span class="fs-16 lh-8">M & M</span>
+          <div style="height: fit-content;" class="fs-14">Computer</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="column" [ngClass.xs]="{'mat-box-shadow': true}" fxLayoutAlign="start" fxFlex="1 1 auto" class="px-8">
+    <div fxFlex="50%" fxLayoutAlign="space-between">
+      <!-- <span class=""> WebShop</span> -->
+      <span fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px" style=""
+            [ngClass.lt-sm]="{'fs-24': true}"
+            [ngClass.sm]="{'fs-28': true}"
+            [ngClass.gt-sm]="{'fs-32': true}"
+            class="fw-900 text-primary">
+        <span>M & M Computer</span><span fxHide.xs="true">WebShop</span></span>
+      <button fxHide.gt-sm="true" mat-icon-button class="mr-16" (click)="toggleSidenav()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <div class="h-48 ml-auto mr-16" fxFlex="200px" fxLayout="row" [fxHide.lt-md]="true">
+        <div fxLayout="row" fxLayoutAlign="center center" class="w-48 h-48">
+          <mat-icon class="fs-28" fxFlexAlign="center">local_phone</mat-icon>
+        </div>
+        <div fxLayout="column" fxFlex="1 1 auto">
+          <span class="full-width pt-4 mt-auto mb-4 lh-12">Wir sind für Sie da:</span>
+          <span class="full-width mb-auto fs-16 lh-16"><strong>+ 49 351 438 3437</strong></span>
+        </div>
+      </div>
+    </div>
+    <!-- <span fxFlex="50%" class=" lh-48 fs-32 fw-900">WebShop</span> -->
+    <!-- <div fxFlex="5%" class="mat-bg-accent"></div> -->
+    <div fxFlex="50%" class="topnav" fxHide.lt-md="true">
+      <ul class="menu" *ngIf="!layoutConf.isMobile">
+        <li *ngFor="let item of menuItems; let i = index;">
+          <div *ngIf="item.type !== 'separator'" routerLinkActive="open" style="font-weight: 500;">
+            <a matRipple routerLink="/{{item.state}}" *ngIf="item.type === 'link'">
+              <mat-icon>{{item.icon}}</mat-icon>
+              {{item.name | translate}}
+            </a>
+            <div *ngIf="item.type === 'dropDown'">
+              <label matRipple for="drop-{{i}}" class="toggle">
+                <mat-icon>{{item.icon}}</mat-icon> {{item.name | translate}}
+              </label>
+              <a matRipple>
+                <mat-icon>{{item.icon}}</mat-icon> {{item.name | translate}}
+              </a>
+              <input type="checkbox" id="drop-{{i}}" />
+              <ul>
+                <li *ngFor="let itemLvL2 of item.sub; let j = index;" routerLinkActive="open">
+                  <a matRipple routerLink="{{item.state ? '/'+item.state : ''}}/{{itemLvL2.state}}"
+                    *ngIf="itemLvL2.type !== 'dropDown'">
+                    <mat-icon *ngIf="itemLvL2.icon">{{itemLvL2.icon}}</mat-icon>
+                    {{itemLvL2.name | translate}}
+                  </a>
+
+                  <div *ngIf="itemLvL2.type === 'dropDown'">
+                    <label matRipple for="drop-{{i}}{{j}}" class="toggle">{{itemLvL2.name | translate}}</label>
+                    <a matRipple>
+                      <mat-icon *ngIf="itemLvL2.icon">{{itemLvL2.icon}}</mat-icon> {{itemLvL2.name | translate}}
+                    </a>
+                    <input type="checkbox" id="drop-{{i}}{{j}}" />
+                    <ul>
+                      <li *ngFor="let itemLvL3 of itemLvL2.sub" routerLinkActive="open">
+                        <a matRipple
+                          routerLink="{{item.state ? '/'+item.state : ''}}{{itemLvL2.state ? '/'+itemLvL2.state : ''}}/{{itemLvL3.state}}">
+                          <mat-icon *ngIf="itemLvL3.icon">{{itemLvL3.icon}}</mat-icon>
+                          {{itemLvL3.name | translate}}
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+      </ul>
+
+
+    </div>
+  </div>
 </div>

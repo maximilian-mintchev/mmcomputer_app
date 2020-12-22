@@ -1,20 +1,20 @@
 <div>
   <mat-sidenav-container>
-    <mat-sidenav EgretSideNavToggle class="shop-sidebar default-light-bg mat-bg-primary text-white" perfectScrollbar>
+    <mat-sidenav EgretSideNavToggle class="shop-sidebar default-light-bg text-white" perfectScrollbar>
       <div class="shop-filters-wrap">
         <form [formGroup]="filterForm">
-          <mat-tree class="mat-bg-primary text-white" [dataSource]="dataSource" [treeControl]="treeControl">
+          <mat-tree class="" [dataSource]="dataSource" [treeControl]="treeControl">
             <!-- This is the tree node template for leaf nodes -->
             <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding matTreeNodePaddingIndent="20"
-              style="color: #fafafa;">
+              style="font-weight: 500;">
               <!-- use a disabled button to provide padding for tree leaf -->
               <button class="text-white" mat-icon-button disabled></button>
               {{node.name}}
             </mat-tree-node>
             <!-- This is the tree node template for expandable nodes -->
-            <mat-tree-node [ngStyle]="{'border-bottom': node.level === 0 ? '2px solid #fafafa' : 'none'}"
+            <mat-tree-node [ngStyle]="{'border-bottom': node.level === 0 ? '1px solid' : 'none'}"
               *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding matTreeNodePaddingIndent="20"
-              style="color: #fafafa;">
+              style="font-weight: 500;">
               <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
                 <mat-icon class="mat-icon-rtl-mirror">
                   <!-- {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}} -->
@@ -67,56 +67,71 @@
         </form>
       </div>
     </mat-sidenav>
+    <!-- Search Form -->
     <div class="shop-wrap" fxLayout="row" fxLayoutWrap="wrap">
       <!-- Filters -->
       <!-- Right side -->
+      
       <div class="full-width">
-        <!-- Search Form -->
-        <div fxLayout="row" fxLayout.lt-sm="column" class="shop-top-toolbar">
-          <button mat-icon-button class="mr-16" (click)="toggleSideNav()">
-            <mat-icon>short_text</mat-icon>
-          </button>
-          <div fxFlex="1 1 auto" class="product-search-wrap mr-16">
-            <form [formGroup]="filterForm">
-              <input type="text" name="searchProduct" placeholder="Suche Produkt"
-                class="product-search default-bg full-width mat-box-shadow"
-                [formControl]="filterForm.controls['search']" autocomplete="off" spellcheck="false">
-            </form>
+        
+        <div fxLayout="row" fxLayoutAlign="center center" fxLayout.lt-sm="column" class="shop-top-toolbar px-16 py-8">
+          <div fxLayout="row" fxFlex="1 1 auto" fxLayoutAlign="center center" [ngClass.lt-sm]="{'full-width': true}">
+            <button mat-icon-button class="mr-16" (click)="toggleSideNav()">
+              <mat-icon>short_text</mat-icon>
+            </button>
+            <div fxFlex="1 1 auto" class="product-search-wrap mr-16">
+              <form [formGroup]="filterForm">
+                <mat-form-field appearance="outline" class="full-width" style="max-height: 60px;">
+                  <mat-label>Suche nach Produkten...</mat-label>
+                  <!-- <input matInput placeholder="Placeholder"> -->
+                  <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+                  <!-- product-search default-bg full-width -->
+                  <input matInput type="text" name="searchProduct" placeholder="z.B. M&M Computer Bestseller PC"
+                         class=""
+                         [formControl]="filterForm.controls['search']" autocomplete="off" spellcheck="false">
+                </mat-form-field>
+              </form>
+            </div>
           </div>
+
           <!-- View change buttons and cart -->
           <!-- <span fxFlex></span> -->
           <div [fxHide.lt-md]="true">
             <!-- viewMode = 'list-view' -->
             <button mat-icon-button [color]="(productConfig$ | async)?.viewMode === 'list-view' ? 'primary' : ''"
               (click)="setViewMode('list-view')">
+              <!-- [ngClass]="{'text-white': (productConfig$ | async)?.viewMode === 'grid-view'}" -->
               <mat-icon>format_list_bulleted</mat-icon>
             </button>
             <!-- viewMode = 'grid-view' -->
             <button mat-icon-button [color]="(productConfig$ | async)?.viewMode === 'grid-view' ? 'primary' : ''"
               (click)="setViewMode('grid-view')">
+              <!-- [ngClass]="{'text-white': (productConfig$ | async)?.viewMode === 'list-view'}" -->
               <mat-icon>apps</mat-icon>
             </button>
           </div>
           <span fxFlex="20px"></span>
-          <button mat-raised-button color="primary" routerLink="/shop/cart">
+          <button [ngClass.lt-sm]="{'full-width': true}" color="primary" mat-raised-button routerLink="/shop/cart">
             <mat-icon>shopping_cart</mat-icon> Warenkorb ({{cartData.itemCount}})
           </button>
         </div>
-        <mat-divider class="my-16"></mat-divider>
+        <!-- <mat-divider class="my-16"></mat-divider> -->
         <!-- Products container -->
         <div class="product-container" [ngClass]="{'list-view': (productConfig$ | async)?.viewMode === 'list-view'}">
           <!-- Product Box -->
           <div class="product-wrap"
             *ngFor="let product of products$ | async | paginate: { itemsPerPage: 12, currentPage: currentPage }; let i = index;"
             [@animate]="{value:'*',params:{delay: (i*100)+'ms', y:'50px'}}">
-            <div class="product-inner default-bg">
+            <div class="product-inner default-bg border">
+              <!-- <div class="mat-bg-primary" style="height: 10px;"></div> -->
               <div *ngIf="product?.badge?.text" class="product-badge mat-elevation-z7"
-                [ngStyle]="{background: product?.badge?.color || '#f44336'}">
+              [ngStyle]="{background: product?.badge?.color || '#f44336'}">
                 <span>{{product?.badge?.text}}</span>
               </div>
               <div class="featured-img" [routerLink]="['/shop/products/', product._id]">
                 <img [src]="product.photo" alt="">
               </div>
+              
               <div class="info-wrap p-16">
                 <div class="main-info">
                   <h3 class="title" [routerLink]="['/shop/products/', product._id]">{{product.name}}</h3>
@@ -189,6 +204,8 @@
                 </div>
                 
               </div>
+              <!-- <div class="mat-bg-primary" style="height: 15px;"></div> -->
+
 
             </div>
           </div>

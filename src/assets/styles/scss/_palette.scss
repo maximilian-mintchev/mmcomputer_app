@@ -28,8 +28,8 @@
   // Sidebar backgrounds
   .sidebar-#{''+$colorName+''} {
     .navigation-hold {
-      background: $color500 !important;
-
+      // background: $color500 !important;
+      background: whitesmoke !important;
       a,
       .sidenav-hold .sidenav li.open a .mat-icon:not(.menu-caret),
       .sidenav li.open > div > a > span:not(.menuitem-badge),
@@ -37,7 +37,8 @@
       .icon-menu .mat-raised-button,
       .app-user .app-user-name,
       .branding .app-logo-text {
-        color: $foreground500 !important;
+        // color: whitesmoke;
+        color: $color500 !important;
       }
       a:hover {
         background: rgba(darken($color500, 20), .2) !important;

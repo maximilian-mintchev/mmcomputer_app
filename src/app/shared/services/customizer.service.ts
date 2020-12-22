@@ -4,7 +4,7 @@ import { filter } from "rxjs/operators";
 import { LayoutService } from "./layout.service";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class CustomizerService {
 

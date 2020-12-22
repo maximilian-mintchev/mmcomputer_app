@@ -1,5 +1,6 @@
 $border-color: rgba(0, 0, 0, 0.1);
-
+$primary-color: #018fd9; 
+$accent-color: #B3E0F9;
 $utilities: (
   "shadow": null,
   "border-color": null,
@@ -48,6 +49,20 @@ $utilities: (
     class: "border-left-light",
     values: (
       null: 1px solid rgba(255, 255, 255, 0.1)
+    )
+  ),
+  "border-primary": (
+    property: border,
+    class: "border-primary",
+    values: (
+      null: 3px solid $primary-color
+    )
+  ),
+  "border-dashed-light": (
+    property: border,
+    class: "border-dashed-light",
+    values: (
+      null: 3px solid $accent-color
     )
   ),
 

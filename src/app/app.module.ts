@@ -3,9 +3,9 @@ import { RouterModule } from '@angular/router';
 import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // import { GestureConfig } from '@angular/material/core';
-import { 
-  PerfectScrollbarModule, 
-  PERFECT_SCROLLBAR_CONFIG, 
+import {
+  PerfectScrollbarModule,
+  PERFECT_SCROLLBAR_CONFIG,
   PerfectScrollbarConfigInterface
 } from 'ngx-perfect-scrollbar';
 
@@ -22,6 +22,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ErrorHandlerService } from './shared/services/error-handler.service';
 import { TokenInterceptor } from './shared/interceptors/token.interceptor';
+import {OAuthModule} from 'angular-oauth2-oidc';
 
 
 // AoT requires an exported function for factories
@@ -45,6 +46,12 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
+      }
+    }),
+    OAuthModule.forRoot({
+      resourceServer: {
+        allowedUrls: ['http://localhost:9090/api'],
+        sendAccessToken: true
       }
     }),
     InMemoryWebApiModule.forRoot(InMemoryDataService, { passThruUnknownUrl: true}),

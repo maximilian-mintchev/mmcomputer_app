@@ -56,7 +56,7 @@
   // visibility: visible;
   // opacity: 1;
   // transform: scaleY(1);
-  max-height: 1500px;
+  max-height: 10000px;
 }
 
 .configuration-closed {
@@ -89,5 +89,11 @@
 .rotate2 {
   transform: rotate(0);
 }
+
+
+.compoents-wrap {
+  max-height: 2000px;
+}
+
 
 
