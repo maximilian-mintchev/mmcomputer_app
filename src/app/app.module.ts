@@ -1,3 +1,4 @@
+import { AuthConfigModule } from './../config/auth.config.module';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
@@ -21,7 +22,7 @@ import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ErrorHandlerService } from './shared/services/error-handler.service';
-import { TokenInterceptor } from './shared/interceptors/token.interceptor';
+// import { TokenInterceptor } from './shared/interceptors/token.interceptor';
 import {OAuthModule} from 'angular-oauth2-oidc';
 
 
@@ -38,6 +39,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    AuthConfigModule,
     SharedModule,
     HttpClientModule,
     PerfectScrollbarModule,
@@ -48,12 +50,12 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         deps: [HttpClient]
       }
     }),
-    OAuthModule.forRoot({
-      resourceServer: {
-        allowedUrls: ['http://localhost:9090/api'],
-        sendAccessToken: true
-      }
-    }),
+    // OAuthModule.forRoot({
+    //   resourceServer: {
+    //     allowedUrls: ['http://localhost:9090/api'],
+    //     sendAccessToken: true
+    //   }
+    // }),
     InMemoryWebApiModule.forRoot(InMemoryDataService, { passThruUnknownUrl: true}),
     RouterModule.forRoot(rootRouterConfig, { useHash: false })
   ],
@@ -63,11 +65,11 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     // { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
     { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG },
     // REQUIRED IF YOU USE JWT AUTHENTICATION
-    {
+    /*{
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true,
-    },
+    },*/
   ],
   bootstrap: [AppComponent]
 })

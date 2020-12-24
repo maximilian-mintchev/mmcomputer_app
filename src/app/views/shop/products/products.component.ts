@@ -11,8 +11,9 @@ import { AppLoaderService } from '../../../shared/services/app-loader/app-loader
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import {LayoutService} from '../../../shared/services/layout.service';
-import {OAuthService} from "angular-oauth2-oidc";
-import {CloudService} from "../../../shared/services/cloud.service";
+import {OAuthService} from 'angular-oauth2-oidc';
+import {CloudService} from '../../../shared/services/cloud.service';
+
 
 const TREE_DATA: FoodNode[] = [
   {
@@ -837,6 +838,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
       );
     this.getCart();
     this.cartData = this.shopService.cartData;
+    // this.oauthService.loadUserProfile().then((data) => {
+    //   console.log(data);  
+    // });
   }
   ngOnDestroy() {
 
@@ -908,7 +912,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.oauthService.logOut();
   }
   testApi() {
-    this.cloudService.getHeroes().subscribe(() => {
+    this.cloudService.getHeroes().subscribe((data) => {
+      console.log(data);
       alert('Received message');
     });
   }

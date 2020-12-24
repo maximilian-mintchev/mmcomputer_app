@@ -98,6 +98,7 @@ export class UILibIconService {
     { 'name': 'software', 'fileName': 'coding.svg' },
     { 'name': 'keyboard', 'fileName': 'keyboard.svg' },
     { 'name': 'mouse', 'fileName': 'mouse.svg' },
+    { 'name': 'benutzer', 'fileName': 'benutzer-mit-krawatte-und-brille.svg' }
 
 
   ]

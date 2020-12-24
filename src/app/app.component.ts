@@ -17,16 +17,19 @@ export class AppComponent implements OnInit, AfterViewInit {
   appTitle = 'MMComputer';
   pageTitle = '';
 
-  authConfig: AuthConfig = {
-    issuer: 'http://localhost:8080/auth/realms/mmcomputer',
-    redirectUri: window.location.origin + '/shop',
-    clientId: 'app-mmcomputer',
-    scope: 'openid profile email offline_access heroes',
-    responseType: 'code',
-    // at_hash is not present in JWT token
-    disableAtHashCheck: true,
-    showDebugInformation: true
-  };
+  // authConfig: AuthConfig = {
+  //   issuer: 'http://localhost:8080/auth/realms/mmcomputer',
+  //   redirectUri: window.location.origin + '/shop',
+  //   clientId: 'app-mmcomputer',
+  //   // scope: 'profile email',
+  //   scope: 'openid profile email offline_access',
+
+  //   responseType: 'code',
+  //   // at_hash is not present in JWT token
+  //   disableAtHashCheck: true,
+  //   showDebugInformation: true,
+
+  // };
 
   constructor(
     public title: Title,
@@ -37,7 +40,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private oauthService: OAuthService
   ) {
     iconService.init();
-    this.configure();
+    // this.configure();
   }
 
   ngOnInit() {
@@ -51,11 +54,11 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 
 
-  private configure() {
-    this.oauthService.configure(this.authConfig);
-    this.oauthService.tokenValidationHandler = new  NullValidationHandler();
-    this.oauthService.loadDiscoveryDocumentAndTryLogin();
-  }
+  // private configure() {
+  //   this.oauthService.configure(this.authConfig);
+  //   this.oauthService.tokenValidationHandler = new  NullValidationHandler();
+  //   this.oauthService.loadDiscoveryDocumentAndTryLogin();
+  // }
 
 
 

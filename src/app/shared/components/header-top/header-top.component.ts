@@ -1,3 +1,4 @@
+import { OAuthService } from 'angular-oauth2-oidc';
 import { Component, OnInit, Input, OnDestroy, Renderer2 } from '@angular/core';
 import { NavigationService } from "../../../shared/services/navigation.service";
 import { Subscription } from 'rxjs';
@@ -12,6 +13,7 @@ import { JwtAuthService } from 'app/shared/services/auth/jwt-auth.service';
 })
 export class HeaderTopComponent implements OnInit, OnDestroy {
   layoutConf: any;
+  public userProfile: any;
   menuItems:any;
   menuItemSub: Subscription;
   egretThemes: any[] = [];
@@ -30,7 +32,8 @@ export class HeaderTopComponent implements OnInit, OnDestroy {
     public themeService: ThemeService,
     public translate: TranslateService,
     private renderer: Renderer2,
-    public jwtAuth: JwtAuthService
+    public jwtAuth: JwtAuthService,
+    private oauthService: OAuthService
   ) { }
 
   ngOnInit() {
@@ -54,6 +57,12 @@ export class HeaderTopComponent implements OnInit, OnDestroy {
       })
       this.menuItems = mainItems
     })
+    if(this.oauthService.hasValidAccessToken()) {
+      this.oauthService.loadUserProfile().then((userProfile) => {
+        this.userProfile = userProfile;
+        console.log(userProfile);
+      });
+    }
   }
   ngOnDestroy() {
     this.menuItemSub.unsubscribe()
@@ -63,6 +72,9 @@ export class HeaderTopComponent implements OnInit, OnDestroy {
   }
   changeTheme(theme) {
     this.layout.publishLayoutChange({matTheme: theme.name})
+  }
+  public logoff() {
+    this.oauthService.logOut();
   }
   toggleNotific() {
     this.notificPanel.toggle();
@@ -86,4 +98,18 @@ export class HeaderTopComponent implements OnInit, OnDestroy {
   isLtSm(): boolean {
     return this.layout.isLtSm();
   }
+  login(): void {
+    this.oauthService.initLoginFlow();
+  }
+  isAuth(): boolean {
+    if(this.oauthService.hasValidAccessToken()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  
+
+  
 }
