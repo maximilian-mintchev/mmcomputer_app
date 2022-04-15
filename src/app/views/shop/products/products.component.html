@@ -5,17 +5,18 @@
         <form [formGroup]="filterForm">
           <mat-tree class="" [dataSource]="dataSource" [treeControl]="treeControl">
             <!-- This is the tree node template for leaf nodes -->
-            <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding matTreeNodePaddingIndent="20"
+            <!-- (click)="searchCatalogNode(node)" -->
+            <mat-tree-node *matTreeNodeDef="let node" (click)="searchCatalogNode(node, searchInput)" [routerLink]="['/shop/catalog', node.id , node.link ,node.name]"  matTreeNodePadding matTreeNodePaddingIndent="5"
               style="font-weight: 500;">
               <!-- use a disabled button to provide padding for tree leaf -->
-              <button class="text-white" mat-icon-button disabled></button>
+              <button mat-icon-button class="text-white" disabled></button>
               {{node.name}}
             </mat-tree-node>
             <!-- This is the tree node template for expandable nodes -->
-            <mat-tree-node [ngStyle]="{'border-bottom': node.level === 0 ? '1px solid' : 'none'}"
-              *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding matTreeNodePaddingIndent="20"
+            <mat-tree-node [ngStyle]="{'border-bottom': node.level === 0 ? '1px solid' : 'none'}" (click)="searchCatalogNode(node)"
+              *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding matTreeNodePaddingIndent="5" [routerLink]="['/shop/catalog', node.id , node.name]"
               style="font-weight: 500;">
-              <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+              <button mat-icon-button matTreeNodeToggle  [attr.aria-label]="'Toggle ' + node.name">
                 <mat-icon class="mat-icon-rtl-mirror">
                   <!-- {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}} -->
                   {{treeControl.isExpanded(node) ? 'remove' : 'add'}}
@@ -71,27 +72,26 @@
     <div class="shop-wrap" fxLayout="row" fxLayoutWrap="wrap">
       <!-- Filters -->
       <!-- Right side -->
-      
+
       <div class="full-width">
-        
+
         <div fxLayout="row" fxLayoutAlign="center center" fxLayout.lt-sm="column" class="shop-top-toolbar px-16 py-8">
           <div fxLayout="row" fxFlex="1 1 auto" fxLayoutAlign="center center" [ngClass.lt-sm]="{'full-width': true}">
             <button mat-icon-button class="mr-16" (click)="toggleSideNav()">
               <mat-icon>short_text</mat-icon>
             </button>
-            <!-- <button mat-button (click)="login()">Login</button>
-            <button mat-button (click)="logoff()">Logout</button>
-            <button mat-button (click)="testApi()">testApi</button> -->
+            <!--<button mat-button (click)="login()">Login</button>
+            <button mat-button (click)="logoff()">Logout</button>-->
+            <!-- <button mat-button (click)="testApi()">testApi</button> -->
             <div fxFlex="1 1 auto" class="product-search-wrap mr-16">
-              <form [formGroup]="filterForm">
+              <form [formGroup]="filterForm" (ngSubmit)="submitSearchInput(searchInput.value)">
                 <mat-form-field appearance="outline" class="full-width" style="max-height: 60px;">
                   <mat-label>Suche nach Produkten...</mat-label>
                   <!-- <input matInput placeholder="Placeholder"> -->
                   <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
                   <!-- product-search default-bg full-width -->
-                  <input matInput type="text" name="searchProduct" placeholder="z.B. M&M Computer Bestseller PC"
-                         class=""
-                         [formControl]="filterForm.controls['search']" autocomplete="off" spellcheck="false">
+                  <input matInput #searchInput type="text" name="searchProduct" placeholder="z.B. M&M Computer Bestseller PC"
+                    class="" [formControl]="filterForm.controls['search']" autocomplete="off" spellcheck="false">
                 </mat-form-field>
               </form>
             </div>
@@ -123,41 +123,52 @@
         <div class="product-container" [ngClass]="{'list-view': (productConfig$ | async)?.viewMode === 'list-view'}">
           <!-- Product Box -->
           <div class="product-wrap"
-            *ngFor="let product of products$ | async | paginate: { itemsPerPage: 12, currentPage: currentPage }; let i = index;"
-            [@animate]="{value:'*',params:{delay: (i*100)+'ms', y:'50px'}}">
-            <div class="product-inner default-bg border">
+            *ngFor="let product of shopService.products$ | async | paginate: { itemsPerPage: 12, currentPage: pageNo , totalItems: count }; let i = index;"
+            [@animate]="{value:'*',params:{delay: (i*50)+'ms', y:'50px'}}">
+            <div class="product-inner default-bg border mat-box-shadow">
               <!-- <div class="mat-bg-primary" style="height: 10px;"></div> -->
               <div *ngIf="product?.badge?.text" class="product-badge mat-elevation-z7"
-              [ngStyle]="{background: product?.badge?.color || '#f44336'}">
-                <span>{{product?.badge?.text}}</span>
+                [ngStyle]="{background: product?.badge?.color || '#f44336'}">
+                <span>20%</span>
               </div>
-              <div class="featured-img" [routerLink]="['/shop/products/', product._id]">
-                <img [src]="product.photo" alt="">
+              <div class="featured-img" [routerLink]="['/shop/products/', product?.artikelNummer]">
+                <!-- <img [src]="product.photo" alt=""> -->
+                <img src="assets/images/mm-pc.jpg" alt="">
               </div>
-              
+
               <div class="info-wrap p-16">
                 <div class="main-info">
-                  <h3 class="title" [routerLink]="['/shop/products/', product._id]">{{product.name}}</h3>
-                  <p class="text-muted p-line">{{product?.subtitle}}</p>
+                  <h3 class="title" [routerLink]="['/shop/products/', product?.artikelNummer]">{{product?.name}}</h3>
+                  <p class="text-muted p-line" [innerHtml]="handleProductDescription(product.beschreibung)"></p>
                   <p class="text-muted p-line">
-                    <strong>Category:</strong> {{product?.category}}</p>
+                    <strong>Hersteller:</strong> {{product?.hersteller}}
+                  </p>
                   <p class="text-muted p-line">
                     <strong>Tags:</strong>
-                    <span *ngFor="let t of product.tags">{{t}} </span>
+                    <!-- <span *ngFor="let t of product.tags">tags tags tags </span> -->
                   </p>
+                  <p class="text-muted p-line">
+                    <strong>EAN:</strong> {{product?.ean}}
+                  </p>
+                  <p class="text-muted p-line">
+                    <strong>Produktgruppe:</strong> {{product?.produktGruppe}}
+                  </p>
+                  <!-- <p class="text-muted p-line">
+                    <strong></strong> {{product?.zusatzText}}
+                  </p> -->
                 </div>
                 <!-- <mat-divider></mat-divider> -->
                 <mat-divider></mat-divider>
                 <div class="actions">
                   <div class="price-rating">
-                    <div class="product-rating" *ngIf="(productConfig$ | async)?.viewMode === 'grid-view'">
-                      <star-rating [rating]="product.ratings.rating" [starType]="'svg'" [readOnly]="true"
-                        [size]="'small'" [staticColor]="'ok'"></star-rating>
+                    <!-- <star-rating [rating]="product.ratings.rating" [starType]="'svg'" [readOnly]="true"
+                      [size]="'small'" [staticColor]="'ok'"></star-rating> -->
+                    <!-- <div class="product-rating" *ngIf="(productConfig$ | async)?.viewMode === 'grid-view'">
                       <small class="text-muted">({{product.ratings.ratingCount}})</small>
-                    </div>
+                    </div> -->
                     <div class="price">
-                      <span>{{product?.price?.sale | currency:'USD'}}</span>
-                      <del class="text-muted">{{product?.price?.previous | currency:'USD'}}</del>
+                      <span>{{product?.preis | currency:'EUR'}}</span>
+                      <del class="text-muted">{{product?.preis | currency:'EUR'}}</del>
                     </div>
 
                   </div>
@@ -205,7 +216,7 @@
                   </div>
 
                 </div>
-                
+
               </div>
               <!-- <div class="mat-bg-primary" style="height: 15px;"></div> -->
 
@@ -216,7 +227,7 @@
           <!-- End Product -->
 
           <div class="products-pagination">
-            <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+            <pagination-controls (pageChange)="handlePageChange($event, searchInput.value)"></pagination-controls>
           </div>
 
         </div>

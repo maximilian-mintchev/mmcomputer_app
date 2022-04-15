@@ -54,20 +54,20 @@ export class SigninComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   signin() {
-    const signinData = this.signinForm.value
+    // const signinData = this.signinForm.value
 
-    this.submitButton.disabled = true;
-    this.progressBar.mode = 'indeterminate';
+    // this.submitButton.disabled = true;
+    // this.progressBar.mode = 'indeterminate';
     
-    this.jwtAuth.signin(signinData.username, signinData.password)
-    .subscribe(response => {
-      this.router.navigateByUrl(this.jwtAuth.return);
-    }, err => {
-      this.submitButton.disabled = false;
-      this.progressBar.mode = 'determinate';
-      this.errorMsg = err.message;
-      // console.log(err);
-    })
+    // this.jwtAuth.signin(signinData.username, signinData.password)
+    // .subscribe(response => {
+    //   this.router.navigateByUrl(this.jwtAuth.return);
+    // }, err => {
+    //   this.submitButton.disabled = false;
+    //   this.progressBar.mode = 'determinate';
+    //   this.errorMsg = err.message;
+    //   // console.log(err);
+    // })
   }
 
   autoSignIn() {    

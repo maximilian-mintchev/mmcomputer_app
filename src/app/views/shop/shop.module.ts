@@ -1,3 +1,5 @@
+import { SharedComponentsModule } from 'app/shared/components/shared-components.module';
+import { PayComponent } from './../../shared/components/pay/pay.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { MatTreeModule } from '@angular/material/tree';
@@ -66,7 +68,9 @@ import { SharedDirectivesModule } from 'app/shared/directives/shared-directives.
     NgxPaginationModule,
     NgxDatatableModule,
     RouterModule.forChild(ShopRoutes),
-    SharedDirectivesModule
+    SharedDirectivesModule,
+    SharedComponentsModule
+    // SharedModule
   ],
   declarations: [
     ProductsComponent, 

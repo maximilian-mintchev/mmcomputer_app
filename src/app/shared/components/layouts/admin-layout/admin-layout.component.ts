@@ -1,3 +1,4 @@
+import { ShopService } from './../../../../views/shop/shop.service';
 import { Component, OnInit, AfterViewInit, ViewChild, HostListener, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { 
   Router, 
@@ -34,10 +35,11 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
     public themeService: ThemeService,
     private layout: LayoutService,
     private cdr: ChangeDetectorRef,
-    private jwtAuth: JwtAuthService
+    private jwtAuth: JwtAuthService,
+    private shopService: ShopService
   ) {
     // Check Auth Token is valid
-    this.jwtAuth.checkTokenIsValid().subscribe();
+    this.jwtAuth.checkTokenIsValid();
 
     // Close sidenav after route change in mobile
     this.routerEventSub = router.events.pipe(filter(event => event instanceof NavigationEnd))
@@ -69,6 +71,9 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
       if(event instanceof RouteConfigLoadEnd || event instanceof ResolveEnd) {
         this.isModuleLoading = false;
       }
+    });
+    this.shopService.cartData$.subscribe((cartData) => {
+      // alert("Okay let's go");
     });
   }
   @HostListener('window:resize', ['$event'])

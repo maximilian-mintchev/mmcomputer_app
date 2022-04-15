@@ -98,8 +98,16 @@ export class UILibIconService {
     { 'name': 'software', 'fileName': 'coding.svg' },
     { 'name': 'keyboard', 'fileName': 'keyboard.svg' },
     { 'name': 'mouse', 'fileName': 'mouse.svg' },
-    { 'name': 'benutzer', 'fileName': 'benutzer-mit-krawatte-und-brille.svg' }
+    { 'name': 'benutzer', 'fileName': 'benutzer-mit-krawatte-und-brille.svg' },
+    { 'name': 'camera', 'fileName': 'camera.svg' },
+    { 'name': 'laptop', 'fileName': 'laptop.svg' },
+    { 'name': 'printer', 'fileName': 'printer.svg' },
+    { 'name': 'telephone', 'fileName': 'telephone.svg' },
+    { 'name': 'tft', 'fileName': 'tft.svg' },
+    { 'name': 'tv', 'fileName': 'tv.svg' },
+    { 'name': 'adapter', 'fileName': 'adapter.svg' },
 
+    
 
   ]
 

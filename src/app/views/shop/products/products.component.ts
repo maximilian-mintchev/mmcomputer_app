@@ -1,8 +1,14 @@
+import { ActivatedRoute } from '@angular/router';
+import { CatalogNode } from './../../../shared/models/catalog-node.model';
+import { debounceTime, delay } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ShopService, CartItem } from '../shop.service';
 import { Product } from '../../../shared/models/product.model';
+import { ProductPage } from '../../../shared/models/product-page.model';
+
+import { CatalogFlatNode } from '../../../shared/models/catalog-flat-node.model';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Subscription, Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -10,9 +16,14 @@ import { egretAnimations } from '../../../shared/animations/egret-animations';
 import { AppLoaderService } from '../../../shared/services/app-loader/app-loader.service';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
-import {LayoutService} from '../../../shared/services/layout.service';
-import {OAuthService} from 'angular-oauth2-oidc';
-import {CloudService} from '../../../shared/services/cloud.service';
+import { LayoutService } from '../../../shared/services/layout.service';
+import { OAuthService } from 'angular-oauth2-oidc';
+import { CloudService } from '../../../shared/services/cloud.service';
+import { Params, Router, RouterEvent } from '@angular/router';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { HttpParams } from '@angular/common/http';
+import { MatInput } from '@angular/material/input';
+
 
 
 const TREE_DATA: FoodNode[] = [
@@ -760,12 +771,7 @@ interface IProductConfig {
 }
 
 
-/** Flat node with expandable and level information */
-interface ExampleFlatNode {
-  expandable: boolean;
-  name: string;
-  level: number;
-}
+
 
 @Component({
   selector: 'app-products',
@@ -778,10 +784,16 @@ export class ProductsComponent implements OnInit, OnDestroy {
   public viewMode: string = 'grid-view';
   public currentPage: any;
   @ViewChild(MatSidenav) private sideNav: MatSidenav;
+  @ViewChild('searchInput') private searchInput: MatInput;
+
   public productConfig: IProductConfig = {
     viewMode: 'grid-view',
     pcConfigMode: false
   };
+
+  public nodeName: string;
+  public nodeLink: string;
+  public nodeId: number;
 
   public productConfig$: BehaviorSubject<IProductConfig> = new BehaviorSubject(this.productConfig);
 
@@ -791,56 +803,123 @@ export class ProductsComponent implements OnInit, OnDestroy {
   public filterForm: FormGroup;
   public cart: CartItem[];
   public cartData: any;
-  treeControl = new FlatTreeControl<ExampleFlatNode>(
-      node => node.level, node => node.expandable);
+  treeControl = new FlatTreeControl<CatalogFlatNode>(
+    node => node.level, node => node.expandable);
 
-  private _transformer = (node: FoodNode, level: number) => {
+  private _transformer = (node: CatalogNode, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
+      id: node.id,
       name: node.name,
+      nameLang: node.nameLang,
+      parentID: node.parentID,
+      link: node.link,
       level,
+
     };
   }
 
   treeFlattener = new MatTreeFlattener(
-      this._transformer, node => node.level, node => node.expandable, node => node.children);
+    this._transformer, node => node.level, node => node.expandable, node => node.children);
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
 
 
   constructor(
-    private shopService: ShopService,
+    public shopService: ShopService,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private loader: AppLoaderService,
     private _layout: LayoutService,
     private oauthService: OAuthService,
-    private cloudService: CloudService
+    private cloudService: CloudService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private sanitizer: DomSanitizer
+
   ) {
-    this.dataSource.data = TREE_DATA;
+
+
+
+    this.shopService.catalog$.subscribe((catalog: CatalogNode[]) => {
+      // this.dataSource.data = TREE_DATA;
+      console.log("TREE DATA");
+      if (catalog.length !== 0) {
+        this.dataSource.data = catalog;
+        console.log(this.dataSource);
+        console.log("Paramsss")
+        if ((this.activatedRoute.snapshot.paramMap.keys.length == 0)) {
+          // console.log('New Route Calculation...');
+          // this.router.navigate(['/shop/catalog', catalog[0].id, catalog[0].name], {
+          //   replaceUrl: true,
+          //   // relativeTo: this.activatedRoute
+          // });
+        } else {
+          console.log('Route alright...');
+          this.nodeId = parseInt(this.activatedRoute.snapshot.paramMap.get('id'));
+          this.nodeName = this.activatedRoute.snapshot.paramMap.get('name');
+          this.nodeLink = catalog[0].link;
+          // this.activatedRoute.snapshot.paramMap.get('link');
+          // console.log(id, name);
+          this.pageNo = 0;
+          // alert(link);
+          const params: HttpParams = new HttpParams().
+            set('id', JSON.stringify(this.nodeId))
+            .set('name', this.nodeName)
+            .set('link', this.nodeLink)
+            .set('sortBy', this.sortBy)
+            .set('pageNo', JSON.stringify(this.pageNo ))
+            .set('pageSize', JSON.stringify(this.pageSize))
+
+          this.cloudService.getShopProducts(params).subscribe((response: ProductPage) => {
+            // console.log(products);
+            // console.log(products);
+            const { products, totalItems } = response;
+            this.count = totalItems;
+            this.shopService.products$.next(products);
+          }, (error) => {
+            console.log(error);
+          });
+        }
+      }
+      // console.log(tree)
+    });
+
+    this.router.events.subscribe((routerEvent: RouterEvent) => {
+      // console.log(routerEvent);
+    });
+
+
+
+    this.activatedRoute.queryParams.subscribe((params) => {
+      const productID: string = params.productID;
+      const name: string = params.category;
+      const parentID: string = params.parentID;
+      const nameLang: string = params.nameLang;
+      const link: string = params.link;
+      console.log(productID, name, parentID, nameLang, link);
+      // this.cloudService.getShopProducts(productID, parentID, name, nameLang,link);
+    });
+
+
+    // this.shopService.products$.subscribe((products: Product[]) => {
+    //   this.loader.close()
+
+    // });
   }
-  hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
+  hasChild = (_: number, node: CatalogFlatNode) => node.expandable;
 
   ngOnInit() {
-    this.categories$ = this.shopService.getCategories();
-    this.buildFilterForm(this.shopService.initialFilters);
-
-    setTimeout(() => {
-      this.loader.open();
+    this.cloudService.getCatalog().subscribe((catalog: CatalogNode[]) => {
+      this.shopService.catalog$.next(catalog);
     });
-    this.products$ = this.shopService
-      .getFilteredProduct(this.filterForm)
-      .pipe(
-        map(products => {
-          this.loader.close();
-          return products;
-        })
-      );
+    this.shopService.getProducts();
+    this.buildFilterForm(this.shopService.initialFilters);
+    this.categories$ = this.shopService.getCategories();
     this.getCart();
     this.cartData = this.shopService.cartData;
-    // this.oauthService.loadUserProfile().then((data) => {
-    //   console.log(data);  
-    // });
+    // setTimeout(() => {
+    // }, 1000);
   }
   ngOnDestroy() {
 
@@ -900,6 +979,69 @@ export class ProductsComponent implements OnInit, OnDestroy {
     }
   }
 
+  handleProductDescription(produktBeschreibung: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(produktBeschreibung);
+  }
+
+
+  sortBy: string = 'title';
+  pageNo: number = 0;
+  pageSize: number = 12;
+  count: number = 0;
+
+  submitSearchInput(input: string) {
+    this.pageNo = 0;
+    this.cloudService.getProductsByString(
+      new HttpParams()
+        .set('searchString', input)
+        .set('sortBy', this.sortBy)
+        .set('pageNo', JSON.stringify(this.pageNo))
+        .set('pageSize', JSON.stringify(this.pageSize))
+    ).subscribe((response: ProductPage) => {
+      const { products, totalItems } = response;
+      this.count = totalItems;
+      this.shopService.products$.next(products);
+
+    });
+  }
+
+  handlePageChange(pageNo: number, searchInput: string) {
+    this.pageNo = pageNo;
+   
+
+      if(searchInput) {
+        this.cloudService.getProductsByString(
+          new HttpParams()
+            .set('searchString', searchInput)
+            .set('sortBy', this.sortBy)
+            .set('pageNo', JSON.stringify(this.pageNo -1))
+            .set('pageSize', JSON.stringify(this.pageSize))
+        ).subscribe((response: ProductPage) => {
+          const { products, totalItems } = response;
+          this.count = totalItems;
+          this.shopService.products$.next(products);
+    
+        });
+        
+      } else {
+        const params: HttpParams = new HttpParams().
+        set('id', JSON.stringify(this.nodeId))
+        .set('name', this.nodeName)
+        .set('link', this.nodeLink)
+        .set('sortBy', this.sortBy)
+        .set('pageNo', JSON.stringify(this.pageNo -1))
+        .set('pageSize', JSON.stringify(this.pageSize))
+        this.cloudService.getShopProducts(params).subscribe((response: ProductPage) => {
+          const { products, totalItems } = response;
+          this.count = totalItems;
+          this.shopService.products$.next(products);
+        }, (error) => {
+          console.error(error);
+        });
+
+      }
+  }
+
   isLtSm(): boolean {
     return this._layout.isLtSm();
   }
@@ -912,9 +1054,57 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.oauthService.logOut();
   }
   testApi() {
-    this.cloudService.getHeroes().subscribe((data) => {
+    this.cloudService.getHomeProducts().subscribe((data) => {
       console.log(data);
       alert('Received message');
     });
+  }
+  searchCatalogNode(node: CatalogNode, searchInput: MatInput) {
+    // const queryParams: Params = { productID: node.id, category: node.name, parentID: node.parentID, name: node.name, nameLang: node.nameLang, link: node.link };
+    this.pageNo = 0;
+    this.nodeId = node.id;
+    this.nodeName = node.name;
+    this.nodeLink = node.link;
+    searchInput.value = '';
+    this.filterForm.controls['search'].setValue('');
+
+    const params: HttpParams = new HttpParams().
+      set('id', JSON.stringify(node.id))
+      .set('name', node.name)
+      .set('link', node.link)
+      .set('sortBy', this.sortBy)
+      .set('pageNo', JSON.stringify(this.pageNo ))
+      .set('pageSize', JSON.stringify(this.pageSize))
+
+    this.cloudService.getShopProducts(params).subscribe((response: ProductPage) => {
+      const { products, totalItems } = response;
+      this.count = totalItems;
+      this.shopService.products$.next(products);
+    }, (error) => {
+      console.error(error);
+    });
+    //   this.router.navigate(
+    //     [],
+    //     {
+    //       // relativeTo: this.activatedRoute,
+    //       queryParams: queryParams,
+    //       queryParamsHandling: 'merge', // remove to replace all query params by provided
+    //     })
+    //   // .then((completed) => {
+    //   //   if(completed) {
+    //   //     console.log('completed');
+    //   //     const id: string = this.activatedRoute.snapshot.params['productID'];
+    //   //     const parentID: string = this.activatedRoute.snapshot.paramMap.get('parentID');
+    //   //     const name: string = this.activatedRoute.snapshot.paramMap.get('name')
+    //   //     const nameLang: string =this.activatedRoute.snapshot.paramMap.get('nameLang')
+    //   //     const link: string = this.activatedRoute.snapshot.paramMap.get('link');
+    //   //     console.log(id);
+    //   //   } else {
+    //   //     console.error("Routing Error Occurred by Search Catalog Node Function");
+    //   //   }
+    //   // }).catch((error) => {
+    //   //   console.error("Routing Error Occurred by Search Catalog Node Function");
+
+    //   // });
   }
 }

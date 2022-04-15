@@ -1,3 +1,4 @@
+import { MatTabsModule } from '@angular/material/tabs';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -11,6 +12,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 import { HomeComponent } from './home.component';
 import { HomeRoutes } from './home.routing';
+import { MatTabGroup } from '@angular/material/tabs';
 
 @NgModule({
   imports: [
@@ -18,6 +20,7 @@ import { HomeRoutes } from './home.routing';
     MatListModule,
     MatCardModule,
     MatButtonModule,
+    MatTabsModule,
     MatIconModule,
     MatTooltipModule,
     FlexLayoutModule,

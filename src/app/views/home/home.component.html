@@ -1,47 +1,190 @@
-<div class="scrollable" [perfectScrollbar]>
-  <section class="home-section section-intro text-center">
-    <div class="container">
-        <span class="egret">Egret</span>
-        <img src="assets/images/5-star.png" alt="">
-        <h1>Angular 10+ Material Design Admin Template</h1>
-        <p>Quick start your project within <strong>few minutes</strong>. 
-          Seed project is included.</p>
-        <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="center center" class="mb-48">
-          <button mat-raised-button mat-lg-button (click)="goToDashboard(mainVersion)">MAIN DASHBOARD</button>
-          <span fxFlex="8px"></span>
-          <a href="https://themeforest.net/item/egret-angular-4-material-design-admin-template/20161805?ref=mh_rafi" target="_blank">
-            <button mat-raised-button mat-lg-button class="pink pink-500-fg">BUY EGRET</button>
-          </a>
+<div class="scrollable" fxLayout="column">
+  <!-- <h1>What are you you looking for?</h1> -->
+  <div fxLayout="row" class="head-row" fxLayoutGap="10px" fxLayoutAlign="center center">
+    
+    <!-- <div class="image-set" fxLayout="row wrap" fxLayoutAlign="space-around center">
+      <div class="head-image-container" fxLayoutAlign="center center">
+        <div class="head-image-wrapper">
+  
+          <img class="head-image mat-elevation-z1" src="../../../assets/images/mm-pc.jpg" alt="">
         </div>
-        <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="center center" class="pt-48">
-          <a href="http://demos.ui-lib.com/egret-doc/" mat-button color="accent" target="_blank">Documentation</a>
-          <a href="https://ui-lib.com/github-access/" mat-button color="warn" target="_blank">GitHub Access</a>
-        </div>
-    </div>
-  </section>
-  <section id="demos" class="home-section section-demos">
-    <div class="container">
-      <div class="text-center">
-          <h2 class="text-20 text-uppercase mt-0 mb-16">Limitless layout variaitons</h2>
       </div>
-      <div fxLayout="row wrap" fxLayout.lt-sm="column">
-        <div class="demo-box-wrap" fxFlex="33.33" *ngFor="let v of versions"> 
-          <div class="text-center demo-box" [matTooltip]="v.name" matTooltipPosition="above">
-            <div (click)="goToDashboard(v)" class="p-0 screenshot">
-              <img [src]="v.photo">
+      <div class="head-image-container" fxLayoutAlign="center center">
+        <div class="head-image-wrapper">
+  
+          <img class="head-image mat-elevation-z1" src="../../../assets/images/mm-tft.jpg" alt="">
+        </div>
+      </div>
+      <div class="head-image-container" fxLayoutAlign="center center">
+        <div class="head-image-wrapper">
+  
+          <img class="head-image mat-elevation-z1" src="../../../assets/images/mm-huawai-matebook.jpg" alt="">
+        </div>
+      </div>
+      
+      
+
+    </div> -->
+    
+    <div fxFlex fxLayout="column" fxLayoutGap="5px" fxLayoutAlign="center center">
+      <div class="start py-16" fxLayout="column">
+        <div fxLayout fxLayoutGap="15px" fxLayoutAlign="center center">
+          <span *ngFor="let i of  [1,2,3,4,5]">
+              <mat-icon style="color: #018df9;">star</mat-icon>
+          </span>
+
+        </div>
+        <h1 class="section-headline text-center">Seit 30 Jahren Technikhändler Ihres Vertrauens</h1>
+        <h1 class="p-16 text-center" style="font-weight: 300;">Stöbern Sie in unserem Store </h1>
+      </div>
+    </div>
+    <!-- <div class="image-set" fxLayout="row wrap" fxLayoutAlign="space-around center">
+      <div class="head-image-container">
+        <div class="head-image-wrapper">
+  
+          <img class="head-image mat-elevation-z1" src="../../../assets/images/mm-netzteil.jpg" alt="">
+        </div>
+      </div>
+      <div class="head-image-container" fxLayoutAlign="center center">
+        <div class="head-image-wrapper">
+  
+          <img class="head-image mat-elevation-z1" src="../../../assets/images/mm-telefon.jpg" alt="">
+        </div>
+      </div>
+      <div class="head-image-container" fxLayoutAlign="center center">
+        <div class="head-image-wrapper">
+  
+          <img class="head-image mat-elevation-z1" src="../../../assets/images/mm-paper-office.jpg" alt="">
+        </div>
+      </div>
+      
+      
+      
+
+    </div> -->
+
+
+
+  </div>
+  <!-- <div style="width: 100%; height: 3px; background: #b3e0f9;"></div> -->
+  <!-- <div style="width: 100%; height: 10px; background: #b3e0f9;"></div> -->
+
+
+  <!-- <div style="width: 100%; height: 5px; background: #b3e0f9;"></div> -->
+  <section fxFlex fxLayout="row wrap" class="landing">
+    <mat-card fxFlex="33.33" *ngFor="let tile of tiles; let i = index" class="br-0 m-0 p-0 tile">
+      <a fxFlex fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px" href="">
+        <mat-icon [svgIcon]="tile.icon" class="icon"></mat-icon>
+        <h2>{{tile.name}}</h2>
+      </a>
+      <!-- <div *ngIf="i == 4" class="mat-elevation-z1 p-16 " fxLayout="column" fxLayoutAlign="center center">
+        <h1 class="text-center mt-16" style="color: #018fd9;">Ihr Computer Experte</h1>
+
+        <div fxLayout="row" fxLayoutAlign="center center"
+          class="m-auto mat-box-shadow mat-bg-primary br-8">
+          <div fxLayout="row" fxLayoutAlign="center end" style="width: 98%; height: 98%; border: 2px solid white;"
+            class="br-8">
+            <div fxLayout="column" style="text-align: center;" class="px-8 fw-900 text-white">
+              <span style="font-size: 14px;" class="lh-16">M & M</span>
+              <div style="height: fit-content; font-size: 16px;" class="">Computer</div>
             </div>
-            <!-- <div class="caption">
-              <h3>{{v.name}}</h3>
-              <button mat-raised-button color="primary" (click)="goToDashboard(v)">View Demo</button>
-            </div> -->
           </div>
         </div>
-      </div>
-
-      <div class="text-center">
-        <p>Configure your own layout using customizer.</p>
-        <button mat-fab color="primary" (click)="goToMainDash()"><mat-icon>settings</mat-icon></button>
-      </div>
-    </div>
+        <h1 class="text-center mt-16" style="color: #018fd9;">Was suchen Sie?</h1>
+      </div> -->
+    </mat-card>
   </section>
+  <!-- <section class="second-section" svgIcon="case" fxLayoutAlign="center center"> -->
+  <!-- <div fxLayoutAlign="center center" class="wrapper">
+      <mat-icon svgIcon="case"></mat-icon>
+
+    </div> -->
+  <!-- <div fxLayout="row" fxLayoutAlign="center center"
+      class="m-auto mat-box-shadow mat-bg-primary br-8 w-120 h-120">
+      <div fxLayout="row" fxLayoutAlign="center end" style="width: 98%; height: 98%; border: 2px solid white;"
+        class="br-8">
+        <div fxLayout="column" style="text-align: center;" class="px-8 fw-900 text-white">
+          <span style="font-size: 14px;" class="lh-16">M & M</span>
+          <div style="height: fit-content; font-size: 16px;" class="">Computer</div>
+        </div>
+      </div>
+    </div> -->
+  <!-- <mat-card class="mat-elevation-z1 p-16 " fxLayout="column" fxLayoutAlign="center center">
+      <h1 class="text-center mt-16" style="color: #018fd9;">Ihr Computer Experte</h1>
+
+      <h1 class="text-center mt-16" style="color: #018fd9;">Was suchen Sie?</h1>
+    </mat-card> -->
+
+
+  <!-- </section> -->
+  <!-- <div style="width: 100%; height: 5px; background: #b3e0f9;"></div> -->
+
+
+
+
+
+
 </div>
+<section fxLayout="column" class="third-section py-32">
+  <h1 class="p-16 text-center my-32" style="font-size: 28px;">Was Kunden sagen </h1>
+
+  <div fxLayout="row nowrap">
+    <div fxFlex="33.33">
+      <mat-card fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px">
+        <mat-card-title>In sicheren Händen</mat-card-title>
+        <div fxLayout fxLayoutGap="5px" fxLayoutAlign="center center">
+          <span *ngFor="let i of  [1,2,3,4,5]">
+              <mat-icon style="color: #018df9;">star</mat-icon>
+          </span>
+
+        </div>
+        <img class="user-image mat-elevation-z1" src="./../../../assets/images/face-1.jpg" alt="">
+        <q class="text-center">Hardware online kaufen ist anstrengend. M&M Computer liefert das beste Service und Supprt
+          Paket!</q>
+        <cite>-Matthias Große</cite>
+
+      </mat-card>
+
+    </div>
+    <div fxFlex="33.33">
+      <mat-card fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px">
+        <mat-card-title>Technik Experten seit 30 Jahren</mat-card-title>
+        <div fxLayout fxLayoutGap="15px" fxLayoutAlign="center center">
+          <span *ngFor="let i of  [1,2,3,4,5]">
+              <mat-icon style="color: #018df9;">star</mat-icon>
+          </span>
+
+        </div>
+        <img class="user-image mat-elevation-z1" src="./../../../assets/images/face-2.jpg" alt="">
+        <q class="text-center">Service und Beratung werden hier groß geschrieben. Meinen herzlichsten Dank!</q>
+        <cite>-Holger Schmidt</cite>
+      </mat-card>
+
+    </div>
+    <div fxFlex="33.33">
+      <mat-card class="full-width" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px">
+        <!-- <h3 style="background: #b3e0f9;">Verlässlicher Business Partner</h3> -->
+        <mat-card-title>Verlässlicher Businesspartner</mat-card-title>
+        <div fxLayout fxLayoutGap="15px" fxLayoutAlign="center center">
+          <span *ngFor="let i of  [1,2,3,4,5]">
+              <mat-icon style="color: #018df9;">star</mat-icon>
+          </span>
+
+        </div>
+        <img class="user-image mat-elevation-z1" src="./../../../assets/images/face-3.jpg" alt="">
+        <q class="text-center">Seit 20 Jahren kaufen wir unsere IT bei M&M ein, es gab noch nie Probleme</q>
+        <cite>-Sebastian Hall</cite>
+
+      </mat-card>
+
+    </div>
+  </div>
+
+</section>
+<section class="full-width p-16 tab">
+  <mat-tab-group mat-align-tabs="start">
+    <mat-tab label="Top Produkte">Content 1</mat-tab>
+    <mat-tab label="Sale">Content 2</mat-tab>
+    <mat-tab label="Oft gekauft">Content 3</mat-tab>
+  </mat-tab-group>
+</section>

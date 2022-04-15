@@ -21,7 +21,8 @@ export class CheckoutComponent implements OnInit {
   public subTotal: number;
   public vat: number = 15;
   public shipping: any = 'Free';
-  public paymentMethod: string;
+  public payMethod: string = 'Paypal';
+  public payMethods: string[] = ['Paypal', 'Rechnung'];
 
   constructor(
     private fb: FormBuilder,
@@ -38,7 +39,7 @@ export class CheckoutComponent implements OnInit {
   calculateCost() {
     this.subTotal = 0;
     this.cart.forEach(item => {
-      this.subTotal += (item.product.price.sale * item.data.quantity)
+      this.subTotal += (item.product.preis * item.data.quantity)
     })
     this.total = this.subTotal + (this.subTotal * (15/100));
     if(this.shipping !== 'Free') {
@@ -90,7 +91,11 @@ export class CheckoutComponent implements OnInit {
       shippingAddress = this.checkoutFormAlt.value;
     }
     
-    console.log(billingAddress, shippingAddress, this.paymentMethod)
+    console.log(billingAddress, shippingAddress, this.payMethod)
+  }
+
+  radioChange(e){
+    // console.log(this.selectedRadio)
   }
 
 }

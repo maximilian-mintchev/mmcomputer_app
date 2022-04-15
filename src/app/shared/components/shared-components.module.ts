@@ -1,3 +1,4 @@
+import { PayComponent } from './pay/pay.component';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SharedMaterialModule } from '../shared-material.module';
@@ -58,7 +59,8 @@ const components = [
   EgretSidebarTogglerDirective,
   BottomSheetShareComponent,
   EgretExampleViewerComponent,
-  EgretExampleViewerTemplateComponent
+  EgretExampleViewerTemplateComponent,
+  PayComponent
 ]
 
 @NgModule({

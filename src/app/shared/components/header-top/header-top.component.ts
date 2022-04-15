@@ -1,5 +1,6 @@
+import { ShopService, CartData } from './../../../views/shop/shop.service';
 import { OAuthService } from 'angular-oauth2-oidc';
-import { Component, OnInit, Input, OnDestroy, Renderer2 } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Renderer2, AfterViewInit, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { NavigationService } from "../../../shared/services/navigation.service";
 import { Subscription } from 'rxjs';
 import { ThemeService } from '../../../shared/services/theme.service';
@@ -11,7 +12,7 @@ import { JwtAuthService } from 'app/shared/services/auth/jwt-auth.service';
   selector: 'app-header-top',
   templateUrl: './header-top.component.html'
 })
-export class HeaderTopComponent implements OnInit, OnDestroy {
+export class HeaderTopComponent implements OnInit, AfterViewInit, AfterViewChecked ,OnDestroy {
   layoutConf: any;
   public userProfile: any;
   menuItems:any;
@@ -24,7 +25,9 @@ export class HeaderTopComponent implements OnInit, OnDestroy {
   }, {
     name: 'Spanish',
     code: 'es',
-  }]
+  }];
+  public amountCartItems: number;
+
   @Input() notificPanel;
   constructor(
     public layout: LayoutService,
@@ -33,10 +36,27 @@ export class HeaderTopComponent implements OnInit, OnDestroy {
     public translate: TranslateService,
     private renderer: Renderer2,
     public jwtAuth: JwtAuthService,
-    private oauthService: OAuthService
-  ) { }
+    private oauthService: OAuthService,
+    private shopService: ShopService,
+    private cdr: ChangeDetectorRef
+  ) { 
+    
+  }
+  ngAfterViewChecked(): void {
+    
+  }
+
+
+  ngAfterViewInit(): void {
+    // this.cartData = this.shopService.cartData;
+   
+    
+  }
+
+  
 
   ngOnInit() {
+    
     this.layoutConf = this.layout.layoutConf;
     this.egretThemes = this.themeService.egretThemes;
     this.menuItemSub = this.navService.menuItems$
@@ -63,6 +83,15 @@ export class HeaderTopComponent implements OnInit, OnDestroy {
         console.log(userProfile);
       });
     }
+
+    // this.shopService.getCart().subscribe((cartItems) => {
+    //   this.amountCartItems = cartItems.length;
+    //   alert("Okaaaaay. Let's go!");
+    // });
+
+   
+   
+   
   }
   ngOnDestroy() {
     this.menuItemSub.unsubscribe()
@@ -106,6 +135,12 @@ export class HeaderTopComponent implements OnInit, OnDestroy {
       return true;
     } else {
       return false;
+    }
+  }
+
+  getRole():string {
+    if(this.jwtAuth.getRole()) {
+      return this.jwtAuth.getRole();
     }
   }
 

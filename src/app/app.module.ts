@@ -1,5 +1,7 @@
+import { ShopService } from './views/shop/shop.service';
+import { CloudService } from './shared/services/cloud.service';
 import { AuthConfigModule } from './../config/auth.config.module';
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule, ErrorHandler, APP_INITIALIZER } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -24,6 +26,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ErrorHandlerService } from './shared/services/error-handler.service';
 // import { TokenInterceptor } from './shared/interceptors/token.interceptor';
 import {OAuthModule} from 'angular-oauth2-oidc';
+import { init_catalog } from 'app.init';
+import { AgbComponent } from './views/agb/agb.component';
 
 
 // AoT requires an exported function for factories
@@ -59,11 +63,17 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     InMemoryWebApiModule.forRoot(InMemoryDataService, { passThruUnknownUrl: true}),
     RouterModule.forRoot(rootRouterConfig, { useHash: false })
   ],
-  declarations: [AppComponent],
+  declarations: [AppComponent, AgbComponent],
   providers: [
     { provide: ErrorHandler, useClass: ErrorHandlerService },
     // { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
     { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG },
+    { 
+      provide: APP_INITIALIZER, 
+      useFactory: init_catalog, 
+      deps: [ CloudService, ShopService ], 
+      multi: true
+    },
     // REQUIRED IF YOU USE JWT AUTHENTICATION
     /*{
       provide: HTTP_INTERCEPTORS,

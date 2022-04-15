@@ -1,15 +1,15 @@
 <div class="margin-333">
-    <table class="cart-table default-bg mat-elevation-z1" 
+    <table class="cart-table default-bg mat-elevation-z1 my-16" 
     *ngIf="cart.length" 
     [@animate]="{value:'*',params:{delay: '100ms', x:'-50px'}}">
       <thead>
         <tr>
-          <th class="text-muted">Remove</th>
-          <th class="text-muted">Thumbnail</th>
-          <th class="text-muted">Product</th>
-          <th class="text-muted">Price</th>
-          <th class="text-muted">Quantity</th>
-          <th class="text-muted">Total</th>
+          <th class="text-muted">Entfernen</th>
+          <th class="text-muted">Vorschau</th>
+          <th class="text-muted">Produkt</th>
+          <th class="text-muted">Preis</th>
+          <th class="text-muted">Menge</th>
+          <th class="text-muted">Gesamt</th>
         </tr>
       </thead>
       <tbody>
@@ -17,9 +17,9 @@
           <td><button mat-icon-button color="warn" (click)="removeProduct(item)"><mat-icon>close</mat-icon></button> </td>
           <td><img class="cart-thumbnail" [src]="item.product.photo" style="cursor: pointer" [routerLink]="['/shop/products', item.product._id]"></td>
           <td><span style="cursor: pointer" [routerLink]="['/shop/products', item.product._id]">{{item.product.name}}</span></td>
-          <td>{{item.product.price.sale | currency}}</td>
+          <td>{{item.product.preis | currency}}</td>
           <td><input class="quantity-input default-bg" id="quantity" min="1" name="quantity" type="number" (change)="onQuantityChange()" [(ngModel)]="item.data.quantity"></td>
-          <td>{{item.product.price.sale * item.data.quantity | currency}}</td>
+          <td>{{item.product.preis * item.data.quantity | currency}}</td>
         </tr>
       </tbody>
     </table>
@@ -29,25 +29,25 @@
       <div fxFlex="25">
         <mat-card class="m-0">
           <div class="line mb-16">
-            <span class="fw-500">Subtotal:</span>
+            <span class="fw-500">Zwischensumme:</span>
             <span fxFlex></span>
             <span class="text-muted">${{subTotal}}</span>
           </div>
           <div class="line mb-16">
-            <span class="fw-500">VAT:</span>
+            <span class="fw-500">MwSt:</span>
             <span fxFlex></span>
             <span class="text-muted">{{vat}}%</span>
           </div>
           <mat-divider class=""></mat-divider>
           <div class="line mb-16 pt-16">
-            <span class="fw-500">Total:</span>
+            <span class="fw-500">Gesamtsumme:</span>
             <span fxFlex></span>
             <span class="text-muted">${{total}}</span>
           </div>
           <mat-card-actions>
             <span fxFlex></span>
-            <button mat-raised-button color="primary" routerLink="/shop">Back To Shop</button>
-            <button mat-raised-button color="warn" routerLink="/shop/checkout">Checkout</button>
+            <button mat-raised-button color="primary" routerLink="/shop">Zurück zum Shop</button>
+            <button mat-raised-button style="background: #b3e0f9;" routerLink="/shop/checkout">Bezahlen <mat-icon>credit_card</mat-icon> </button>
           </mat-card-actions>
         </mat-card>
       </div>
@@ -55,7 +55,7 @@
     <div *ngIf="!cart.length" [@animate]="{value:'*',params:{delay: '100ms', y:'-50px'}}">
       <mat-card class="text-center">
         <p>Your cart is empty</p>
-        <button mat-raised-button color="accent" routerLink="/shop">Go Back To Shop</button>
+        <button mat-raised-button color="accent" (click)="goBack()">Go Back To Shop</button>
       </mat-card>
     </div>
 </div>

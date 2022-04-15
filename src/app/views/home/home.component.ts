@@ -3,10 +3,18 @@ import { Router } from '@angular/router'
 import { AppLoaderService } from '../../shared/services/app-loader/app-loader.service';
 // import PerfectScrollbar from 'perfect-scrollbar';
 import { LayoutService } from 'app/shared/services/layout.service';
+import { style } from '@angular/animations';
+
+export interface HomeTile {
+  name: string,
+  link: string,
+  icon: string, 
+}
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html'
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   public mainVersion;
@@ -123,6 +131,63 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     //     "name": "egret-blue"
     //   }`
     // }
+  ]
+
+
+
+
+  public tiles: HomeTile[] = [
+    {
+      name: 'Netzwerk/Kommunikation',
+      link: '',
+      icon: 'telephone'
+    },
+    {
+      name: 'Audio/Video/TV',
+      link: '',
+      icon: 'tv'
+    },
+    {
+      name: 'Digitalkameras',
+      link: '',
+      icon: 'camera'
+    },
+    {
+      name: 'Monitore/Scanner/Drucker',
+      link: '',
+      icon: 'printer'
+
+    },
+    {
+      name: 'Massenspeicher',
+      link: '',
+      icon: 'ssd'
+
+    },
+    {
+      name: 'PC-Kompoenten',
+      link: '',
+      icon: 'network_card'
+
+    },
+    {
+      name: 'Notebooks, Tablets & Co.',
+      link: '',
+      icon: 'laptop'
+
+    },
+    {
+      name: 'PC-Systeme',
+      link: '',
+      icon: 'operating_system'
+
+    },
+    {
+      name: 'Adapter, Kabel, Sonstiges',
+      link: '',
+      icon: 'adapter'
+
+    }
   ]
 
   // private homePS: PerfectScrollbar;

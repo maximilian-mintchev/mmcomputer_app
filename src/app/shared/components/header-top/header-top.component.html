@@ -86,7 +86,7 @@
       <span fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px" style="" [ngClass.lt-sm]="{'fs-24': true}"
         [ngClass.sm]="{'fs-28': true}" [ngClass.gt-sm]="{'fs-32': true}" class="fw-900 text-primary">
 
-        <span>M & M Computer</span><span fxHide.xs="true">WebShop</span></span>
+        <span>M & M Computer</span><span fxHide.xs="true" style="color: #304156;">  Beste Technik zu besten Preisen!</span></span>
       <span fxFlex></span>
       <!-- <ng-template #login>
           <button mat-button (click)="login()">
@@ -95,7 +95,7 @@
         </ng-template> -->
       <!-- <ng-template #login [ngTemplateOutlet]="outlet" [ngOutletContext]="context"> -->
       <button color="primary" class="br-0" mat-button routerLink="/shop/cart">
-        <mat-icon>shopping_cart</mat-icon> Warenkorb (0)
+        <mat-icon>shopping_cart</mat-icon> Warenkorb ({{amountCartItems}})
       </button>
       <button class="br-0" *ngIf="!isAuth()" mat-button (click)="login()">
         <mat-icon inline="true">login</mat-icon>
@@ -110,7 +110,7 @@
           <mat-icon inline="true" style="width: 28px; height: 28px; font-size: 28px">person</mat-icon>
         </div>
         <div fxLayout="column" fxLayoutAlign="center start" class="trigger-text-container py-2 px-8 lh-20" style="max-height: 45px;">
-          <span fxFlex="50%" class="fs-12 mt-auto lh-32">M & M Kunde:</span>
+          <span fxFlex="50%" class="fs-12 mt-auto lh-32">{{getRole()}} - Account</span>
           <span fxFlex="50%" class="mb-auto"><strong>{{userProfile?.email}}</strong></span>
         </div>
       </button>

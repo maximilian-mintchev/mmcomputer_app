@@ -1,5 +1,6 @@
-
-import {throwError as observableThrowError,  Observable } from 'rxjs';
+import { CloudService } from './../../shared/services/cloud.service';
+// throwErrorasobservableThrowError,
+import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { ProductDB } from '../../shared/inmemory-db/products';
 import { CountryDB } from '../../shared/inmemory-db/countries';
@@ -8,6 +9,7 @@ import { FormGroup } from '@angular/forms';
 
 import { of, combineLatest } from 'rxjs';
 import { startWith, debounceTime, delay, map, switchMap } from 'rxjs/operators';
+import { CatalogNode } from 'app/shared/models/catalog-node.model';
 
 
 
@@ -19,9 +21,20 @@ export interface CartItem {
   };
 }
 
-@Injectable()
+export interface CartData {
+  itemCount: number;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
 export class ShopService {
   public products: Product[] = [];
+  public products$: Subject<Product[]> = new Subject<Product[]>();
+  public catalog$: Subject<CatalogNode[]> = new Subject<CatalogNode[]>();
+  public catalog: CatalogNode[] = [];
+  public cartData$: BehaviorSubject<CartData> = new BehaviorSubject<CartData>({itemCount: 0});
+
   public initialFilters = {
     minPrice: 10,
     maxPrice: 40,
@@ -30,39 +43,54 @@ export class ShopService {
   };
 
   public cart: CartItem[] = [];
-  public cartData = {
+  public cartData: CartData = {
     itemCount: 0
   }
-  constructor() { }
+  
+  constructor(private cloudService: CloudService) { 
+    // this.cloudService.getCatalog().subscribe((data) => {
+    //   console.log(data);
+    // }, (error) => {
+    //   console.error(error);
+    // });
+    this.catalog$.next(this.catalog);
+  }
+
+
   public getCart(): Observable<CartItem[]> {
     return of(this.cart)
   }
   public addToCart(cartItem: CartItem): Observable<CartItem[]> {
     let index = -1;
     this.cart.forEach((item, i) => {
-      if(item.product._id === cartItem.product._id) {
+      if(item.product.artikelNummer === cartItem.product.artikelNummer) {
         index = i;
       }
     })
     if(index !== -1) {
       this.cart[index].data.quantity += cartItem.data.quantity;
       this.updateCount();
+      
+
       return of(this.cart)
     } else {
       this.cart.push(cartItem);
       this.updateCount();
+      
       return of(this.cart)
     }
   }
   private updateCount() {
+    alert('UpdateCount');
     this.cartData.itemCount = 0;
     this.cart.forEach(item => {
       this.cartData.itemCount += item.data.quantity;
-    })
+      this.cartData$.next(this.cartData);
+    });
   }
   public removeFromCart(cartItem: CartItem): Observable<CartItem[]> {
     this.cart = this.cart.filter(item => {
-      if(item.product._id == cartItem.product._id) {
+      if(item.product.artikelNummer == cartItem.product.artikelNummer) {
         return false;
       }
       return true;
@@ -70,24 +98,43 @@ export class ShopService {
     this.updateCount();
     return of(this.cart)
   }
-  public getProducts(): Observable<Product[]> {
-    let productDB = new ProductDB();
-    return of(productDB.products)
-      .pipe(
-        delay(500),
-        map((data: Product[]) => {
-          this.products = data;
-          return data;
-        })
-      )
+  // public getProducts(): Observable<Product[]> {
+  //   let productDB = new ProductDB();
+  //   return of(productDB.products)
+  //     .pipe(
+  //       delay(500),
+  //       map((data: Product[]) => {
+  //         this.products = data;
+  //         return data;
+  //       })
+  //     )
+  // }
+
+  public getProducts(): void {
+    this.cloudService.getHomeProducts().subscribe((products) => {
+      this.products = products.products as Product[];
+      this.products.forEach((product) => {
+        product.gallery = ['assets/images/mm-pc.jpg', 'assets/images/mm-pc2.jpg'];
+        product.photo = 'assets/images/mm-pc2.jpg';
+        console.log(product);
+      });
+      this.products$.next(this.products);
+    });
   }
-  public getProductDetails(productID): Observable<Product> {
-    let productDB = new ProductDB();
-    let product = productDB.products.filter(p => p._id === productID)[0];
-    if(!product) {
-      return observableThrowError(new Error('Product not found!'));
+
+
+  public getProductDetails(artikelNummer: number): Product {
+    let test = artikelNummer;
+    // let productDB = new ProductDB();
+    let product: Product = this.products.filter(p => {
+      let bool: boolean = JSON.stringify(p.artikelNummer) === JSON.stringify(artikelNummer)
+      return bool;
     }
-    return of(product)
+      )[0];
+    if(!product) {
+      // return observableThrowError(new Error('Product not found!'));
+    }
+    return product;
   }
   public getCategories(): Observable<any> {
     let categories = ['speaker', 'headphone', 'watch', 'phone'];
@@ -96,7 +143,7 @@ export class ShopService {
 
   public getFilteredProduct(filterForm: FormGroup): Observable<Product[]> {
     return combineLatest(
-      this.getProducts(),
+      this.products,
       filterForm.valueChanges
       .pipe(
         startWith(this.initialFilters),
@@ -105,7 +152,8 @@ export class ShopService {
     )
     .pipe(
       switchMap(([products, filterData]) => {
-        return this.filterProducts(products, filterData);
+        //product
+        return this.filterProducts(this.products, filterData);
       })
     )
 
@@ -127,8 +175,8 @@ export class ShopService {
       if (
         !filterData.search
         || p.name.toLowerCase().indexOf(filterData.search.toLowerCase()) > -1
-        || p.description.indexOf(filterData.search) > -1
-        || p.tags.indexOf(filterData.search) > -1
+        || p.name.indexOf(filterData.search) > -1
+        || p.beschreibung.indexOf(filterData.search) > -1
       ) {
         match.search = true;
       } else {
@@ -136,7 +184,7 @@ export class ShopService {
       }
       // Category filter
       if (
-        filterData.category === p.category 
+        filterData.category === p.produktGruppe 
         || !filterData.category 
         || filterData.category === 'all'
       ) {
@@ -146,22 +194,22 @@ export class ShopService {
       }
       // Price filter
       if (
-        p.price.sale >= filterData.minPrice 
-        && p.price.sale <= filterData.maxPrice
+        p.preis >= filterData.minPrice 
+        && p.preis <= filterData.maxPrice
       ) {
         match.price = true;
       } else {
         match.price = false;
       }
       // Rating filter
-      if(
-        p.ratings.rating >= filterData.minRating 
-        && p.ratings.rating <= filterData.maxRating
-      ) {
-        match.rating = true;
-      } else {
-        match.rating = false;
-      }
+      // if(
+      //   p.ratings.rating >= filterData.minRating 
+      //   && p.ratings.rating <= filterData.maxRating
+      // ) {
+      //   match.rating = true;
+      // } else {
+      //   match.rating = false;
+      // }
       
       for(let m in match) {
         if(!match[m]) return false;

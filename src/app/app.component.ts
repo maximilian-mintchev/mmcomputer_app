@@ -1,3 +1,4 @@
+import { ShopService } from './views/shop/shop.service';
 import { Component, OnInit, AfterViewInit, Renderer2 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router, NavigationEnd, ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
@@ -6,7 +7,6 @@ import { RoutePartsService } from './shared/services/route-parts.service';
 
 import { filter } from 'rxjs/operators';
 import { UILibIconService } from './shared/services/ui-lib-icon.service';
-import {AuthConfig, NullValidationHandler, OAuthService} from 'angular-oauth2-oidc';
 
 @Component({
   selector: 'app-root',
@@ -30,14 +30,13 @@ export class AppComponent implements OnInit, AfterViewInit {
   //   showDebugInformation: true,
 
   // };
-
+  
   constructor(
     public title: Title,
     private router: Router,
     private activeRoute: ActivatedRoute,
     private routePartsService: RoutePartsService,
     private iconService: UILibIconService,
-    private oauthService: OAuthService
   ) {
     iconService.init();
     // this.configure();
@@ -50,22 +49,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
   }
 
-
-
-
-
-  // private configure() {
-  //   this.oauthService.configure(this.authConfig);
-  //   this.oauthService.tokenValidationHandler = new  NullValidationHandler();
-  //   this.oauthService.loadDiscoveryDocumentAndTryLogin();
-  // }
-
-
-
-
-
-
-
+  
   changePageTitle() {
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((routeChange) => {
       const routeParts = this.routePartsService.generateRouteParts(this.activeRoute.snapshot);

@@ -6,13 +6,19 @@ import { CheckoutComponent } from './checkout/checkout.component';
 
 export const ShopRoutes: Routes = [{
   path: '',
-  children: [{
-    path: '',
-    component: ProductsComponent
-  }, {
+  children: [
+  //   {
+  //   path: 'catalog',
+  //   component: ProductsComponent
+  // }, 
+  {
+    path: 'catalog/:id/:name',
+    component: ProductsComponent, 
+  }, 
+  {
     path: 'products/:id',
     component: ProductDetailsComponent,
-    data: { title: 'Detail', breadcrumb: 'Detail' }
+    data: { title: 'Detail', breadcrumb: 'Detail' } 
   }, {
     path: 'cart',
     component: CartComponent,
@@ -21,5 +27,8 @@ export const ShopRoutes: Routes = [{
     path: 'checkout',
     component: CheckoutComponent,
     data: { title: 'Checkout', breadcrumb: 'CHECKOUT' }
+  }, {
+    path: '**',
+    redirectTo: 'catalog/279/Netzwerk%2FKommunikation'
   }]
 }]

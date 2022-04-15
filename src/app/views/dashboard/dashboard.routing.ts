@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { DashboardDarkComponent } from './dashboard-dark/dashboard-dark.component';
 import { CryptocurrencyComponent } from './cryptocurrency/cryptocurrency.component';
@@ -13,7 +12,7 @@ export const DashboardRoutes: Routes = [
     path: 'default',
     component: DefaultDashboardComponent,
     canActivate: [UserRoleGuard],
-    data: { title: 'Default', breadcrumb: 'Default', roles: config.authRoles.sa }
+    data: { title: 'Default', breadcrumb: 'Default', roles: config.authRoles.admin}
   },
   {
     path: 'learning-management',

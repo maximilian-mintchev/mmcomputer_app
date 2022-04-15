@@ -35,7 +35,7 @@ export class ComponentConfiguration {
     calculatePrice():number {
         let sumPrice = 0;
         this.selectedProducts.forEach(product => {
-            sumPrice += sumPrice + product.price.sale;
+            sumPrice += sumPrice + product.preis;
         });
         return sumPrice;
     }

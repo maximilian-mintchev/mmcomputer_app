@@ -1,190 +1,194 @@
+import { CloudService } from './../../../shared/services/cloud.service';
 import { Product } from './../../../shared/models/product.model';
 import { ComponentConfiguration } from './../../../shared/models/component-configuration.model';
 import { ComponentType } from './../../../shared/models/component-type.model';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { egretAnimations } from "../../../shared/animations/egret-animations";
 import { ShopService, CartItem } from '../shop.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Location } from '@angular/common';
+
 // import { Product } from '../../../shared/models/product.model';
 import { Subscription } from 'rxjs';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 
-const mockProducts1: Product[] = [
-  {
-    '_id': '5a9ae2106518248b68251fdf',
-    'name': 'M & M Bestseller PC',
-    // 'subtitle': 'Admodum assentior ad duo',
-    'description': 'Lorem ipsum dolor sit amet, et nec putent quodsi, admodum assentior ad duo. Pri ad sapientem ocurreret incorrupte',
-    'category': 'speaker',
-    'tags': [
-      'sunt',
-      'sunt',
-      'culpa'
-    ],
-    'price': {
-      'sale': 32,
-      'previous': 54
-    },
-    'ratings': {
-      'rating': 3.86,
-      'ratingCount': 26
-    },
-    'features': [
-      'aliquip aliquip',
-      'nulla laboris',
-      'pariatur consequat'
-    ],
-    'photo': '../../../../assets/images/mm-pc.jpg',
-    'gallery': [
-      '../../../../assets/images/mm-pc.jpg',
-      '../../../../assets/images/mm-pc2.jpg'
-    ],
-    'badge': {
-      'text': '20% off',
-      'color': '#B3E0F9'
-    }
-  },
-  {
-    '_id': '5a9ae210b7b4d3ad2f048bbe',
-    'name': 'M & M Computer Professional PC',
-    // 'subtitle': 'Admodum assentior ad duo',
-    'description': 'cillum eiusmod',
-    'category': 'speaker',
-    'tags': [
-      'Lorem',
-      'nisi',
-      'ad'
-    ],
-    'price': {
-      'sale': 25,
-      'previous': 43
-    },
-    'ratings': {
-      'rating': 3.72,
-      'ratingCount': 18
-    },
-    'features': [
-      'magna est',
-      'consectetur dolor',
-      'est proident'
-    ],
-    'photo': '../../../../assets/images/mm-pc2.jpg',
-    'gallery': [
-      '../../../../assets/images/mm-pc2.jpg',
-      '../../../../assets/images/mm-pc3.jpg'
-    ],
-    'badge': {
-      'text': 'Sale',
-      'color': '#B3E0F9'
-    }
-  },
-  {
-    '_id': '5a9ae210d9a8d6dda7256417',
-    'name': 'M & M Mini PCs',
-    // 'subtitle': 'On-ear fit to minimize noise so you can hear every beat',
-    'description': 'sit laborum',
-    'category': 'headphone',
-    'tags': [
-      'eu',
-      'irure',
-      'proident'
-    ],
-    'price': {
-      'sale': 29,
-      'previous': 55
-    },
-    'ratings': {
-      'rating': 3.79,
-      'ratingCount': 77
-    },
-    'features': [
-      'laboris id',
-      'magna eu',
-      'sint quis'
-    ],
-    'photo': '../../../../assets/images/mm-pc3.jpg',
-    'gallery': [
-      '../../../../assets/images/products/headphone-1.jpg',
-      '../../../../assets/images/products/headphone-2.jpg',
-      '../../../../assets/images/products/headphone-3.jpg',
-      '../../../../assets/images/products/headphone-4.jpg'
-    ],
-    'badge': {
-      'text': '-40%',
-      'color': '#B3E0F9'
-    }
-  },
-]
+// const mockProducts1: Product[] = [
+//   {
+//     '_id': '5a9ae2106518248b68251fdf',
+//     'name': 'M & M Bestseller PC',
+//     // 'subtitle': 'Admodum assentior ad duo',
+//     'description': 'Lorem ipsum dolor sit amet, et nec putent quodsi, admodum assentior ad duo. Pri ad sapientem ocurreret incorrupte',
+//     'category': 'speaker',
+//     'tags': [
+//       'sunt',
+//       'sunt',
+//       'culpa'
+//     ],
+//     'price': {
+//       'sale': 32,
+//       'previous': 54
+//     },
+//     'ratings': {
+//       'rating': 3.86,
+//       'ratingCount': 26
+//     },
+//     'features': [
+//       'aliquip aliquip',
+//       'nulla laboris',
+//       'pariatur consequat'
+//     ],
+//     'photo': '../../../../assets/images/mm-pc.jpg',
+//     'gallery': [
+//       '../../../../assets/images/mm-pc.jpg',
+//       '../../../../assets/images/mm-pc2.jpg'
+//     ],
+//     'badge': {
+//       'text': '20% off',
+//       'color': '#B3E0F9'
+//     }
+//   },
+//   {
+//     '_id': '5a9ae210b7b4d3ad2f048bbe',
+//     'name': 'M & M Computer Professional PC',
+//     // 'subtitle': 'Admodum assentior ad duo',
+//     'description': 'cillum eiusmod',
+//     'category': 'speaker',
+//     'tags': [
+//       'Lorem',
+//       'nisi',
+//       'ad'
+//     ],
+//     'price': {
+//       'sale': 25,
+//       'previous': 43
+//     },
+//     'ratings': {
+//       'rating': 3.72,
+//       'ratingCount': 18
+//     },
+//     'features': [
+//       'magna est',
+//       'consectetur dolor',
+//       'est proident'
+//     ],
+//     'photo': '../../../../assets/images/mm-pc2.jpg',
+//     'gallery': [
+//       '../../../../assets/images/mm-pc2.jpg',
+//       '../../../../assets/images/mm-pc3.jpg'
+//     ],
+//     'badge': {
+//       'text': 'Sale',
+//       'color': '#B3E0F9'
+//     }
+//   },
+//   {
+//     '_id': '5a9ae210d9a8d6dda7256417',
+//     'name': 'M & M Mini PCs',
+//     // 'subtitle': 'On-ear fit to minimize noise so you can hear every beat',
+//     'description': 'sit laborum',
+//     'category': 'headphone',
+//     'tags': [
+//       'eu',
+//       'irure',
+//       'proident'
+//     ],
+//     'price': {
+//       'sale': 29,
+//       'previous': 55
+//     },
+//     'ratings': {
+//       'rating': 3.79,
+//       'ratingCount': 77
+//     },
+//     'features': [
+//       'laboris id',
+//       'magna eu',
+//       'sint quis'
+//     ],
+//     'photo': '../../../../assets/images/mm-pc3.jpg',
+//     'gallery': [
+//       '../../../../assets/images/products/headphone-1.jpg',
+//       '../../../../assets/images/products/headphone-2.jpg',
+//       '../../../../assets/images/products/headphone-3.jpg',
+//       '../../../../assets/images/products/headphone-4.jpg'
+//     ],
+//     'badge': {
+//       'text': '-40%',
+//       'color': '#B3E0F9'
+//     }
+//   },
+// ]
 
-const mockProducts2: Product[] = [
-  {
-    '_id': '5a9ae210e8329237332e56d7',
-    'name': 'M & M Professional PC',
-    'description': 'eiusmod elit',
-    'category': 'watch',
-    'tags': [
-      'laborum',
-      'minim',
-      'tempor'
-    ],
-    'price': {
-      'sale': 33,
-      'previous': 58
-    },
-    'ratings': {
-      'rating': 4.74,
-      'ratingCount': 64
-    },
-    'features': [
-      'cillum ullamco',
-      'ad minim',
-      'duis exercitation'
-    ],
-    'photo': '../../../../assets/images/mm-pc4.jpg',
-    'gallery': [
-      '../../../../assets/images/products/watch-1.jpg',
-      '../../../../assets/images/products/watch-2.jpg'
-    ],
-    'badge': {
-      'text': '',
-      'color': 'red'
-    }
-  },
-  {
-    '_id': '5a9ae210cb9937d28c6eca1a',
-    'name': 'M & M Mini PCs',
-    'description': 'dolore tempor',
-    'category': 'watch',
-    'tags': [
-      'Lorem',
-      'dolor',
-      'duis'
-    ],
-    'price': {
-      'sale': 38,
-      'previous': 50
-    },
-    'ratings': {
-      'rating': 4.43,
-      'ratingCount': 98
-    },
-    'features': [
-      'aliquip consequat',
-      'excepteur non',
-      'aliquip eu'
-    ],
-    'photo': '../../../../assets/images/mm-pc.jpg',
-    'gallery': [
-      '../../../../assets/images/products/watch-1.jpg',
-      '../../../../assets/images/products/watch-2.jpg'
-    ],
-    'badge': {
-      'text': '',
-      'color': 'red'
-    }
-  },
-]
+// const mockProducts2: Product[] = [
+//   {
+//     '_id': '5a9ae210e8329237332e56d7',
+//     'name': 'M & M Professional PC',
+//     'description': 'eiusmod elit',
+//     'category': 'watch',
+//     'tags': [
+//       'laborum',
+//       'minim',
+//       'tempor'
+//     ],
+//     'price': {
+//       'sale': 33,
+//       'previous': 58
+//     },
+//     'ratings': {
+//       'rating': 4.74,
+//       'ratingCount': 64
+//     },
+//     'features': [
+//       'cillum ullamco',
+//       'ad minim',
+//       'duis exercitation'
+//     ],
+//     'photo': '../../../../assets/images/mm-pc4.jpg',
+//     'gallery': [
+//       '../../../../assets/images/products/watch-1.jpg',
+//       '../../../../assets/images/products/watch-2.jpg'
+//     ],
+//     'badge': {
+//       'text': '',
+//       'color': 'red'
+//     }
+//   },
+//   {
+//     '_id': '5a9ae210cb9937d28c6eca1a',
+//     'name': 'M & M Mini PCs',
+//     'description': 'dolore tempor',
+//     'category': 'watch',
+//     'tags': [
+//       'Lorem',
+//       'dolor',
+//       'duis'
+//     ],
+//     'price': {
+//       'sale': 38,
+//       'previous': 50
+//     },
+//     'ratings': {
+//       'rating': 4.43,
+//       'ratingCount': 98
+//     },
+//     'features': [
+//       'aliquip consequat',
+//       'excepteur non',
+//       'aliquip eu'
+//     ],
+//     'photo': '../../../../assets/images/mm-pc.jpg',
+//     'gallery': [
+//       '../../../../assets/images/products/watch-1.jpg',
+//       '../../../../assets/images/products/watch-2.jpg'
+//     ],
+//     'badge': {
+//       'text': '',
+//       'color': 'red'
+//     }
+//   },
+// ]
 
 
 @Component({
@@ -194,12 +198,15 @@ const mockProducts2: Product[] = [
   animations: egretAnimations
 })
 export class ProductDetailsComponent implements OnInit, OnDestroy {
-  public productID;
+  
+
+  
+  public productID: number;
   public product: Product;
   public quantity: number = 1;
   public cart: CartItem[];
   public cartData: any;
-  private productSub: Subscription;
+  // private productSub: Subscription;
   public cpus: string[] = ['Ryzen 5 2600X', 'Ryzen 5 2600', 'Ryzen 7 2700', 'Ryzen 5 3600', 'Ryzen 7 2700X', 'Ryzen 7 3700X'];
   public graphicCards: string[] = ['GTX 1650 4GB', 'GTX 1660S 6GB', 'RTX 2060 6GB', 'RTX 2060 Super'];
   public ssds: string[] = ['256GB SSD M.2', '500GB SSD M.2', '1TB SSD M.2', 'Option 2'];
@@ -217,10 +224,10 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       ComponentType.CPU,
       new ComponentConfiguration(
         'CPU',
-        mockProducts1,
+        this.shopService.products,
         1,
         1,
-        mockProducts1,
+        this.shopService.products,
         'anderen',
         'cpu'
       )
@@ -229,10 +236,10 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       ComponentType.GraphicsCard,
       new ComponentConfiguration(
         'Grafikkarte',
-        mockProducts2,
+        this.shopService.products,
         1,
         1,
-        mockProducts2,
+        this.shopService.products,
         'andere',
         'graphics_card'
       )
@@ -241,10 +248,10 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       ComponentType.SSD,
       new ComponentConfiguration(
         'SSD',
-        mockProducts2,
+        this.shopService.products,
         1,
         1,
-        mockProducts2,
+        this.shopService.products,
         'andere',
         'ssd'
       )
@@ -253,10 +260,10 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       ComponentType.HDD,
       new ComponentConfiguration(
         'HDD',
-        mockProducts2,
+        this.shopService.products,
         1,
         1,
-        mockProducts2,
+        this.shopService.products,
         'andere',
         'hdd'
       )
@@ -265,10 +272,10 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       ComponentType.Mainboard,
       new ComponentConfiguration(
         'Mainboard',
-        mockProducts2,
+        this.shopService.products,
         1,
         1,
-        mockProducts2,
+        this.shopService.products,
         'anderes',
         'motherboard'
       )
@@ -277,10 +284,10 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       ComponentType.RAM,
       new ComponentConfiguration(
         'RAM',
-        mockProducts2,
+        this.shopService.products,
         1,
         1,
-        mockProducts2,
+        this.shopService.products,
         'anderen',
         'ram'
       )
@@ -289,10 +296,10 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       ComponentType.Soundcard,
       new ComponentConfiguration(
         'Soundkarte',
-        mockProducts2,
+        this.shopService.products,
         1,
         1,
-        mockProducts2,
+        this.shopService.products,
         'andere',
         'sound_card'
       )
@@ -301,10 +308,10 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       ComponentType.Networkcard,
       new ComponentConfiguration(
         'Netzwerkkarte',
-        mockProducts2,
+        this.shopService.products,
         1,
         1,
-        mockProducts2,
+        this.shopService.products,
         'andere',
         'network_card'
       )
@@ -313,10 +320,10 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       ComponentType.Case,
       new ComponentConfiguration(
         'Gehäuse',
-        mockProducts2,
+        this.shopService.products,
         1,
         1,
-        mockProducts2,
+        this.shopService.products,
         'anderes',
         'case'
       )
@@ -325,10 +332,10 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       ComponentType.Keyboard,
       new ComponentConfiguration(
         'Tastatur',
-        mockProducts2,
+        this.shopService.products,
         1,
         1,
-        mockProducts2,
+        this.shopService.products,
         'andere',
         'keyboard'
       )
@@ -337,10 +344,10 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       ComponentType.Mouse,
       new ComponentConfiguration(
         'Maus',
-        mockProducts2,
+        this.shopService.products,
         1,
         1,
-        mockProducts2,
+        this.shopService.products,
         'andere',
         'mouse'
       )
@@ -349,10 +356,10 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       ComponentType.OperatingSystem,
       new ComponentConfiguration(
         'Betriebssystem',
-        mockProducts2,
+        this.shopService.products,
         1,
         1,
-        mockProducts2,
+        this.shopService.products,
         'anderes',
         'operating_system'
 
@@ -362,10 +369,10 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       ComponentType.Software,
       new ComponentConfiguration(
         'Software',
-        mockProducts2,
+        this.shopService.products,
         1,
         1,
-        mockProducts2,
+        this.shopService.products,
         'andere',
         'software'
       )
@@ -376,33 +383,65 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   constructor(
     private shopService: ShopService,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
-  ) { }
+    private snackBar: MatSnackBar,
+    private location: Location,
+    private cloudService: CloudService,
+    private cdr: ChangeDetectorRef,
+    private sanitizer: DomSanitizer
+    ) { 
+      this.productID = parseInt(this.route.snapshot.params['id']);
+      // alert(this.productID);
+      this.getProduct(this.productID);
+      this.getCart();
+      this.cartData = this.shopService.cartData;
+      
+      this.shopService.products$.subscribe((products: Product[])=> {
+        if(!products) {
+          this.shopService.getProducts();
+        }
+      });
+      
+
+  }
 
   ngOnInit() {
-    this.productID = this.route.snapshot.params['id'];
-    this.getProduct(this.productID);
-    this.getCart();
-    this.cartData = this.shopService.cartData;
   }
 
   ngOnDestroy() {
-    this.productSub.unsubscribe();
+    // this.productSub.unsubscribe();
   }
 
-  getProduct(id) {
-    this.productSub = this.shopService.getProductDetails(id)
-      .subscribe(res => {
-        this.product = res;
-        this.initGallery(this.product)
-      }, err => {
-        this.product = {
-          _id: '',
-          name: '',
-          price: { sale: 0 }
-        };
-      })
+  goBack() {
+    this.location.back();
+  } 
+
+  public produktBeschreibung: SafeHtml;
+  getProduct(artikelNummer) {
+    this.cloudService.getProduct(artikelNummer).subscribe((product) => {
+      product.gallery = ['assets/images/mm-tft.jpg', 'assets/images/mm-pc2.jpg'];
+        product.photo = 'assets/images/mm-tft.jpg';
+        this.produktBeschreibung = this.sanitizer.bypassSecurityTrustHtml(product.beschreibung);
+        this.product = product;
+        // console.log((this.beschreibung.nativeElement as HTMLElement)); 
+        console.log(product);
+        this.initGallery(this.product);
+        this.cdr.detectChanges();
+    });
+    // this.product = this.shopService.getProductDetails(artikelNummer);
+    // this.productSub = this.shopService.getProductDetails(id)
+    //   .subscribe(res => {
+    //     this.product = res;
+    //     this.initGallery(this.product)
+    //   }, err => {
+    //     this.product = {
+    //       _id: '',
+    //       name: '',
+    //       price: { sale: 0 }
+    //     };
+    //   })
   }
+
+
   getCart() {
     this.shopService
       .getCart()
@@ -424,11 +463,12 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       .subscribe(res => {
         this.cart = res;
         this.quantity = 1;
-        this.snackBar.open('Product added to cart', 'OK', { duration: 4000 });
+        this.snackBar.open('Product added to cart', 'OK', { duration: 1000 });
       })
   }
 
   initGallery(product: Product) {
+    console.log(product);
     if (!product.gallery) {
       return;
     }

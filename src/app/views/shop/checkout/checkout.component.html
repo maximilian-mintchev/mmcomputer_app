@@ -1,163 +1,11 @@
 <div>
-  <div fxLayout="row" fxLayout.lt-md="column" *ngIf="cart.length">
-    <div fxFlex="70" [@animate]="{value:'*',params:{delay: '100ms', x:'-50px'}}">
-      <mat-card class="mb-16">
-        <mat-card-title>
-          Billing address
-        </mat-card-title>
-        <form [formGroup]="checkoutForm">
-          <div fxLayout="row wrap" fxLayout.lt-sm="column">
-            <div fxFlex="50" class="pr-16">
-              <mat-form-field class="full-width">
-                <mat-select placeholder="Country" [formControl]="checkoutForm.controls['country']">
-                  <mat-option *ngFor="let c of countries" [value]="c.code">
-                    {{ c.name }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
+  <div fxLayout="row" fxLayout.lt-md="column" *ngIf="cart.length" class="p-16">
+    
 
-            <div fxFlex="50" class="pr-16">
-              <mat-form-field class="full-width">
-                <input matInput placeholder="First name" value="" [formControl]="checkoutForm.controls['firstName']">
-              </mat-form-field>
-            </div>
-
-            <div fxFlex="50" class="pr-16">
-              <mat-form-field class="full-width">
-                <input matInput placeholder="Last name" value="" [formControl]="checkoutForm.controls['lastName']">
-              </mat-form-field>
-            </div>
-
-            <div fxFlex="50" class="pr-16">
-              <mat-form-field class="full-width">
-                <input matInput placeholder="Company" value="" [formControl]="checkoutForm.controls['company']">
-              </mat-form-field>
-            </div>
-
-            <div fxFlex="50" class="pr-16">
-              <mat-form-field class="full-width">
-                <input matInput placeholder="Address line 1" value="" [formControl]="checkoutForm.controls['address1']">
-              </mat-form-field>
-            </div>
-
-            <div fxFlex="50" class="pr-16">
-              <mat-form-field class="full-width">
-                <input matInput placeholder="Address line 2" value="" [formControl]="checkoutForm.controls['address2']">
-              </mat-form-field>
-            </div>
-
-            <div fxFlex="50" class="pr-16">
-              <mat-form-field class="full-width">
-                <input matInput placeholder="City" [formControl]="checkoutForm.controls['city']">
-              </mat-form-field>
-            </div>
-
-            <div fxFlex="50" class="pr-16">
-              <mat-form-field class="full-width">
-                <input matInput type="number" placeholder="Zip" [formControl]="checkoutForm.controls['zip']">
-              </mat-form-field>
-            </div>
-
-            <div fxFlex="50" class="pr-16">
-              <mat-form-field class="full-width">
-                <input matInput placeholder="Phone" [formControl]="checkoutForm.controls['phone']">
-              </mat-form-field>
-            </div>
-
-            <div fxFlex="50" class="pr-16">
-              <mat-form-field class="full-width">
-                <input matInput placeholder="Email" [formControl]="checkoutForm.controls['email']">
-              </mat-form-field>
-            </div>
-
-          </div>
-        </form>
-      </mat-card>
-      <div class="m-333" fxLayout="column">
-        <mat-checkbox>Create an account</mat-checkbox>
-        <span fxFlex="16px"></span>
-        <mat-checkbox [(ngModel)]="hasAltAddress">Alternative shipping address</mat-checkbox>
-      </div>
-      <mat-card class="mt-16" *ngIf="hasAltAddress" [@animate]="{value:'*',params:{delay:'100ms',y:'50px'}}">
-        <mat-card-title>
-          Shipping address
-        </mat-card-title>
-        <form [formGroup]="checkoutFormAlt">
-          <div fxLayout="row wrap" fxLayout.lt-sm="column">
-            <div fxFlex="50" class="pr-16">
-              <mat-form-field class="full-width">
-                <mat-select placeholder="Country" [formControl]="checkoutFormAlt.controls['country']">
-                  <mat-option *ngFor="let c of countries" [value]="c.code">
-                    {{ c.name }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-
-            <div fxFlex="50" class="pr-16">
-              <mat-form-field class="full-width">
-                <input matInput placeholder="First name" value="" [formControl]="checkoutFormAlt.controls['firstName']">
-              </mat-form-field>
-            </div>
-
-            <div fxFlex="50" class="pr-16">
-              <mat-form-field class="full-width">
-                <input matInput placeholder="Last name" value="" [formControl]="checkoutFormAlt.controls['lastName']">
-              </mat-form-field>
-            </div>
-
-            <div fxFlex="50" class="pr-16">
-              <mat-form-field class="full-width">
-                <input matInput placeholder="Company" value="" [formControl]="checkoutFormAlt.controls['company']">
-              </mat-form-field>
-            </div>
-
-            <div fxFlex="50" class="pr-16">
-              <mat-form-field class="full-width">
-                <input matInput placeholder="Address line 1" value="" [formControl]="checkoutFormAlt.controls['address1']">
-              </mat-form-field>
-            </div>
-
-            <div fxFlex="50" class="pr-16">
-              <mat-form-field class="full-width">
-                <input matInput placeholder="Address line 2" value="" [formControl]="checkoutFormAlt.controls['address2']">
-              </mat-form-field>
-            </div>
-
-            <div fxFlex="50" class="pr-16">
-              <mat-form-field class="full-width">
-                <input matInput placeholder="City" [formControl]="checkoutFormAlt.controls['city']">
-              </mat-form-field>
-            </div>
-
-            <div fxFlex="50" class="pr-16">
-              <mat-form-field class="full-width">
-                <input matInput type="number" placeholder="Zip" [formControl]="checkoutFormAlt.controls['zip']">
-              </mat-form-field>
-            </div>
-
-            <div fxFlex="50" class="pr-16">
-              <mat-form-field class="full-width">
-                <input matInput placeholder="Phone" [formControl]="checkoutFormAlt.controls['phone']">
-              </mat-form-field>
-            </div>
-
-            <div fxFlex="50" class="pr-16">
-              <mat-form-field class="full-width">
-                <input matInput placeholder="Email" [formControl]="checkoutFormAlt.controls['email']">
-              </mat-form-field>
-            </div>
-
-          </div>
-        </form>
-      </mat-card>
-    </div>
-
-    <div fxFlex="30" [@animate]="{value:'*',params:{delay: '100ms', x:'50px'}}">
+    <div fxFlex="70" [@animate]="{value:'*',params:{delay: '100ms', x:'50px'}}">
       <mat-card class="default">
         <mat-card-title>
-          Your order
+          Deine Bestellung
         </mat-card-title>
         <mat-card-content class="p-0">
           <mat-list class="compact-list mb-16">
@@ -169,7 +17,7 @@
                   <small>{{p.product.name}} x {{p.data.quantity}}</small>
                 </h6>
                 <span fxFlex></span>
-                <div class="text-muted">{{p.product.price.sale * p.data.quantity | currency }}</div>
+                <!-- <div class="text-muted">{{p.product.price.sale * p.data.quantity | currency }}</div> -->
               </div>
               <mat-divider></mat-divider>
             </mat-list-item>
@@ -231,24 +79,189 @@
           </mat-list>
 
           <div class="p-16">
-            <mat-radio-group fxLayout="column" fxLayoutGap="8px" [(ngModel)]="paymentMethod">
-              <mat-radio-button value="paypal">Paypal</mat-radio-button>
+            <mat-radio-group  [(ngModel)]="payMethod">
+              <!-- <mat-radio-button [ckecked]="true" value="paypal">Paypal</mat-radio-button>
               
               <mat-radio-button value="card">Credit Card</mat-radio-button>
               
-              <mat-radio-button value="bank">Bank Transfer</mat-radio-button>
+              <mat-radio-button value="bank">Bank Transfer</mat-radio-button> -->
+              <mat-radio-button class="example-radio-button" *ngFor="let payMethod of payMethods" [value]="payMethod">
+                {{payMethod}}
+              </mat-radio-button>
             </mat-radio-group>
           </div>
 
+          
+        </mat-card-content>
+
+      </mat-card>
+    </div>
+    <div fxFlex="30" *ngIf="payMethod == 'Paypal'" class="my-16">
+      <app-pay></app-pay>
+    </div>
+    <ng-container *ngIf="payMethod == 'Rechnung'">
+      <div fxFlex="30"  [@animate]="{value:'*',params:{delay: '100ms', x:'-50px'}}">
+        <mat-card class="mb-16">
+          <mat-card-title>
+            Rechnungsaddresse
+          </mat-card-title>
+          <form [formGroup]="checkoutForm">
+            <div fxLayout="row wrap" fxLayout.lt-sm="column">
+              <div fxFlex="50" class="pr-16">
+                <mat-form-field class="full-width">
+                  <mat-select placeholder="Country" [formControl]="checkoutForm.controls['country']">
+                    <mat-option *ngFor="let c of countries" [value]="c.code">
+                      {{ c.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+  
+              <div fxFlex="50" class="pr-16">
+                <mat-form-field class="full-width">
+                  <input matInput placeholder="First name" value="" [formControl]="checkoutForm.controls['firstName']">
+                </mat-form-field>
+              </div>
+  
+              <div fxFlex="50" class="pr-16">
+                <mat-form-field class="full-width">
+                  <input matInput placeholder="Last name" value="" [formControl]="checkoutForm.controls['lastName']">
+                </mat-form-field>
+              </div>
+  
+              <div fxFlex="50" class="pr-16">
+                <mat-form-field class="full-width">
+                  <input matInput placeholder="Company" value="" [formControl]="checkoutForm.controls['company']">
+                </mat-form-field>
+              </div>
+  
+              <div fxFlex="50" class="pr-16">
+                <mat-form-field class="full-width">
+                  <input matInput placeholder="Address line 1" value="" [formControl]="checkoutForm.controls['address1']">
+                </mat-form-field>
+              </div>
+  
+              <div fxFlex="50" class="pr-16">
+                <mat-form-field class="full-width">
+                  <input matInput placeholder="Address line 2" value="" [formControl]="checkoutForm.controls['address2']">
+                </mat-form-field>
+              </div>
+  
+              <div fxFlex="50" class="pr-16">
+                <mat-form-field class="full-width">
+                  <input matInput placeholder="City" [formControl]="checkoutForm.controls['city']">
+                </mat-form-field>
+              </div>
+  
+              <div fxFlex="50" class="pr-16">
+                <mat-form-field class="full-width">
+                  <input matInput type="number" placeholder="Zip" [formControl]="checkoutForm.controls['zip']">
+                </mat-form-field>
+              </div>
+  
+              <div fxFlex="50" class="pr-16">
+                <mat-form-field class="full-width">
+                  <input matInput placeholder="Phone" [formControl]="checkoutForm.controls['phone']">
+                </mat-form-field>
+              </div>
+  
+              <div fxFlex="50" class="pr-16">
+                <mat-form-field class="full-width">
+                  <input matInput placeholder="Email" [formControl]="checkoutForm.controls['email']">
+                </mat-form-field>
+              </div>
+  
+            </div>
+          </form>
+        </mat-card>
+        <div class="m-333" fxLayout="column">
+          <mat-checkbox>Create an account</mat-checkbox>
+          <span fxFlex="16px"></span>
+          <mat-checkbox [(ngModel)]="hasAltAddress">Lieferadresse anders als Rechnungsaddresse</mat-checkbox>
+        </div>
+        <mat-card class="mt-16" *ngIf="hasAltAddress" [@animate]="{value:'*',params:{delay:'100ms',y:'50px'}}">
+          <mat-card-title>
+            Lieferadresse
+          </mat-card-title>
+          <form [formGroup]="checkoutFormAlt">
+            <div fxLayout="row wrap" fxLayout.lt-sm="column">
+              <div fxFlex="50" class="pr-16">
+                <mat-form-field class="full-width">
+                  <mat-select placeholder="Country" [formControl]="checkoutFormAlt.controls['country']">
+                    <mat-option *ngFor="let c of countries" [value]="c.code">
+                      {{ c.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+  
+              <div fxFlex="50" class="pr-16">
+                <mat-form-field class="full-width">
+                  <input matInput placeholder="First name" value="" [formControl]="checkoutFormAlt.controls['firstName']">
+                </mat-form-field>
+              </div>
+  
+              <div fxFlex="50" class="pr-16">
+                <mat-form-field class="full-width">
+                  <input matInput placeholder="Last name" value="" [formControl]="checkoutFormAlt.controls['lastName']">
+                </mat-form-field>
+              </div>
+  
+              <div fxFlex="50" class="pr-16">
+                <mat-form-field class="full-width">
+                  <input matInput placeholder="Company" value="" [formControl]="checkoutFormAlt.controls['company']">
+                </mat-form-field>
+              </div>
+  
+              <div fxFlex="50" class="pr-16">
+                <mat-form-field class="full-width">
+                  <input matInput placeholder="Address line 1" value="" [formControl]="checkoutFormAlt.controls['address1']">
+                </mat-form-field>
+              </div>
+  
+              <div fxFlex="50" class="pr-16">
+                <mat-form-field class="full-width">
+                  <input matInput placeholder="Address line 2" value="" [formControl]="checkoutFormAlt.controls['address2']">
+                </mat-form-field>
+              </div>
+  
+              <div fxFlex="50" class="pr-16">
+                <mat-form-field class="full-width">
+                  <input matInput placeholder="City" [formControl]="checkoutFormAlt.controls['city']">
+                </mat-form-field>
+              </div>
+  
+              <div fxFlex="50" class="pr-16">
+                <mat-form-field class="full-width">
+                  <input matInput type="number" placeholder="Zip" [formControl]="checkoutFormAlt.controls['zip']">
+                </mat-form-field>
+              </div>
+  
+              <div fxFlex="50" class="pr-16">
+                <mat-form-field class="full-width">
+                  <input matInput placeholder="Phone" [formControl]="checkoutFormAlt.controls['phone']">
+                </mat-form-field>
+              </div>
+  
+              <div fxFlex="50" class="pr-16">
+                <mat-form-field class="full-width">
+                  <input matInput placeholder="Email" [formControl]="checkoutFormAlt.controls['email']">
+                </mat-form-field>
+              </div>
+  
+            </div>
+          </form>
           <mat-card-actions>
             <span fxFlex></span>
             <button mat-raised-button color="primary" routerLink="/shop/cart">Back to Cart</button>
-            <button mat-raised-button color="warn" (click)="placeOrder()">Place Order</button>
+            <button mat-raised-button style="background: #b3e0f9;" (click)="placeOrder()">Place Order</button>
           </mat-card-actions>
-        </mat-card-content>
-      </mat-card>
-    </div>
+        </mat-card>
+      </div>
+    </ng-container>
   </div>
+
+ 
 
   <div *ngIf="!cart.length" [@animate]="{value:'*',params:{delay: '100ms', y:'-50px'}}">
     <mat-card class="text-center">

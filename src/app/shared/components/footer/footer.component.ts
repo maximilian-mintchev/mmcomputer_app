@@ -22,7 +22,7 @@ export class FooterComponent implements OnInit {
   },
   {
     name: 'AGB',
-    link: '/'
+    link: '/agb'
   },
   {
     name: 'Kontakt',

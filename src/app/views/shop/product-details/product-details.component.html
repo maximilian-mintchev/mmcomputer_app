@@ -1,6 +1,6 @@
 <div class="product-details-wrap m-333" fxLayout="row wrap" fxLayout.lt-md="column" fxLayoutGap="5px">
   <div fxLayout="row" fxFlex="100" class="mb-8">
-    <button mat-icon-button class="text-muted" routerLink="/shop">
+    <button mat-icon-button class="text-muted" (click)="goBack()">
       <mat-icon>chevron_left</mat-icon> <span>Back to Shop</span>
     </button>
     <span fxFlex></span>
@@ -13,7 +13,9 @@
     <div fxLayout="row" class="product-photos-container">
       <div  class="gallery-thumbnails" [@animate]="{value:'*',params:{delay: '100ms', x:'-100px'}}">
         <!-- <mat-card-title class="">Auswahl</mat-card-title> -->
-        <img class="mat-elevation-z1" [ngClass]="{'active': image.state === '1'}" *ngFor="let image of photoGallery"
+        <!-- <img class="mat-elevation-z1" [ngClass]="{'active': image.state === '1'}" *ngFor="let image of photoGallery"
+          [src]="image.url" (click)="changeState(image)"> -->
+          <img class="mat-elevation-z1" [ngClass]="{'active': image.state === '1'}" *ngFor="let image of photoGallery"
           [src]="image.url" (click)="changeState(image)">
       </div>
       <div class="gallery-photo" [@animate]="{value:'*',params:{delay: '100ms', y:'50px'}}">
@@ -31,22 +33,23 @@
   <!-- [@animate]="{value:'*',params:{delay: '100ms', x:'50px'}}" -->
   <!-- [@animate]="{value:'*',params:{delay: '100ms', y:'50px'}}" -->
   <div fxFlex="53" class="product-content-wrap">
-    <mat-card fxLayout="column" class="py-0 m-0" [@animate]="{value:'*',params:{delay: '100ms', x:'50px'}}">
-      <div class="product-rating" *ngIf="product?.ratings?.rating">
+    <mat-card fxLayout="column" class="py-0 m-0" style="box-shadow: none;" [@animate]="{value:'*',params:{delay: '100ms', x:'50px'}}">
+      <!-- <div class="product-rating" *ngIf="product?.ratings?.rating">
         <star-rating [rating]="product?.ratings?.rating" [starType]="'svg'" [readOnly]="true" [size]="'medium'"
           [staticColor]="'ok'">
         </star-rating>
         <small class="text-muted">{{product?.ratings?.rating}} ({{product?.ratings?.ratingCount}})</small>
-      </div>
+      </div> -->
       <!-- <h1 class="title">{{product?.name}}</h1> -->
-      <div class="fw-900 fs-32 lh-40 ">M&M Computer Bestseller PC</div>
+      <div class="fw-900 fs-32 lh-40 ">{{product.name}}</div>
       <div fxFlex="5px" class="mat-bg-primary my-8"></div>
 
-      <p class="mb-8" [ngStyle]="{maxWidth: '450px'}">AMD Ryzen 7 2700X CPU AM4, GTX1660 Super 6GB Gamer, 256GB SSD M.2
-        (NVMe)
+      <p [innerHtml]="produktBeschreibung" class="mb-8" [ngStyle]="{maxWidth: '450px'}">
+        
       </p>
 
     </mat-card>
+    <!-- <app-pay></app-pay> -->
 
 
 
@@ -312,8 +315,8 @@
             [(ngModel)]="quantity">
         </div>
         <div class="price fs-24">
-          <span>{{product?.price?.sale | currency:'EUR'}}</span>
-          <del class="text-muted">{{product?.price?.previous | currency:'EUR'}}</del>
+          <span>{{product?.preis | currency:'EUR'}}</span>
+          <!-- <del class="text-muted">{{product?.preis | currency:'EUR'}}</del> -->
         </div>
       </div>
       <div fxLayout="row">
